@@ -1,6 +1,6 @@
 "use client";
 
-import { Search } from "@mui/icons-material";
+import { Search, Person } from "@mui/icons-material";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
@@ -45,7 +45,7 @@ const Navbar = () => {
   }, [dropdownMenu]);
 
   const handleLogout = () => {
-    signOut({ callbackUrl: "/login" });
+    signOut({ callbackUrl: "/" });
   };
 
 
@@ -92,30 +92,33 @@ const Navbar = () => {
             <Search sx={{ color: "primary" }} />
           </IconButton>
         </div>
-
-        <img
-          src={user?.profileImage || "/assets/person.jpg"}
-          className="profile-icon"
-          alt="profile"
+        
+        <button  
           onClick={() => setDropdownMenu(!dropdownMenu)}
-        />
-
-        {dropdownMenu && !user && (
-          <div className='dropdown-menu'>
-            <Link href="/login">Log In</Link>
-            <Link href="/register">Sign Up</Link>
-          </div>
-        )}
+        >
+          {!user ? (
+            <Link href="/login" className="flex font-medium">
+              <p>LogIn</p>
+              <Person />
+            </Link>
+          ) : (
+            <img 
+              src={user?.profileImage || "/assets/person.jpg"} 
+              alt="profile" 
+              className="profile-icon"
+            />
+          )}
+        </button>
 
         {dropdownMenu && user && (
           <div className='dropdown-menu'>
             <Link href="/profile">Profile</Link>
+            <Link href={`/shop?id=${user._id}`}>Your Shop</Link>
             <Link href="/wishlist">Favorites</Link>
             <Link href="/cart">Cart</Link>
             <Link href="/order">Orders</Link>
-            <Link href={`/shop?id=${user._id}`}>Your Shop</Link>
-            <Link href="/create-work">Sell</Link>
-            <a onClick={handleLogout}>Log Out</a>
+            <Link href="/create-work">Create</Link>
+            <a onClick={handleLogout}>Log-Out</a>
           </div>
         )}
       </div>
