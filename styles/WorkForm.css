@@ -1,0 +1,37 @@
+/* Create Work Form */
+
+.work-form-container {
+  @apply pt-10 pb-20 px-14
+}
+
+.work-form {
+  @apply bg-[#F6F6F6] p-8 rounded-2xl
+}
+
+.work-category-list {
+  @apply flex flex-wrap gap-10 px-5 mt-5 mb-10
+}
+
+.work-category-single {
+  @apply cursor-pointer hover:text-pink-1
+}
+
+.selected {
+  @apply text-pink-1
+}
+
+.photos {
+  @apply flex flex-wrap gap-4 mt-5 mb-10
+}
+
+.photo {
+  @apply relative w-[100px] h-[100px] sm:w-[250px] sm:h-[250px]
+}
+
+.upload-label {
+  @apply p-10 flex flex-col justify-center items-center cursor-pointer border border-dashed rounded-lg bg-white
+}
+
+.upload-delete {
+  @apply absolute right-1 top-1 p-1 cursor-pointer bg-black bg-opacity-20 rounded-full hover:text-pink-1 hover:bg-red-100;
+}

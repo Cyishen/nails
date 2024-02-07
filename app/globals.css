@@ -10,6 +10,15 @@
   }
 }
 
+h1 {
+  font-size: 20px;
+  font-weight: 600;
+}
+h3 {
+  font-size: 16px;
+  font-weight: 500;
+}
+
 /* Login & Register Pages */
 .auth {
   @apply w-full flex items-center justify-center;
@@ -81,7 +90,7 @@
 }
 
 .search {
-  @apply flex justify-between items-center gap-2 px-4 border rounded-full;
+  @apply hidden sm:block justify-between items-center gap-2 px-4 border rounded-full;
 }
 
 .input-search {
@@ -114,3 +123,9 @@
 .btn {
   @apply flex items-center justify-center rounded-xl p-3 bg-black text-body-bold text-white;
 }
+
+/* Feed */
+.wrapper {
+  @apply max-w-7xl lg:mx-auto p-5 md:px-10 xl:px-0 w-full;
+}
+

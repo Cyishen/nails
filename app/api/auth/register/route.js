@@ -1,5 +1,5 @@
 import { connectToDB } from "@database/mongodb/database";
-import User from "@database/models/User";
+import User from "@database/models/User.model";
 import { hash } from "bcryptjs";
 
 export const POST = async (req, res) => {

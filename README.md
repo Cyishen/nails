@@ -2,7 +2,7 @@
 
 ## Getting Started
 
-npm i @emotion/react @emotion/styled @mui/material @mui/icons-material bcryptjs mongoose next-cloudinary next-auth react-hook-form react-hot-toast
+npm i @emotion/react @emotion/styled @mui/material @mui/icons-material bcryptjs mongodb mongoose next-cloudinary next-auth react-hook-form react-hot-toast sass
 
 ```bash
 npm run dev

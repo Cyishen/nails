@@ -51,7 +51,7 @@ const Navbar = () => {
 
 
   return (
-    <div className={`navbar ${isScrolled && "bg-black-1 text-white"}`}>
+    <div className={`navbar ${isScrolled ? "bg-black-1 text-white transition-colors duration-300" : ""}`}>
       <Link href="/">
         <h1 className="text-heading1-bold">Nails</h1>
       </Link>
@@ -117,7 +117,7 @@ const Navbar = () => {
             <Link href="/wishlist">Favorites</Link>
             <Link href="/cart">Cart</Link>
             <Link href="/order">Orders</Link>
-            <Link href="/create-work">Create</Link>
+            <Link href="/works/create">Create</Link>
             <a onClick={handleLogout}>Log-Out</a>
           </div>
         )}

@@ -1,4 +1,4 @@
-import User from "@database/models/User";
+import User from "@database/models/User.model";
 import { connectToDB } from "@database/mongodb/database";
 
 export const POST = async (req, { params }) => {
@@ -8,7 +8,7 @@ export const POST = async (req, { params }) => {
     const { userId } = params;
 
     const body = await req.json();
-    console.log(body);
+    // console.log(body);
 
     const { username, profileImage } = body;
 
@@ -20,7 +20,7 @@ export const POST = async (req, { params }) => {
       },
       { new: true }
     );
-    console.log('User?: ',updatedUser);
+    // console.log('User?: ',updatedUser);
 
     if (!updatedUser) {
       return new Response("Failed to update user", { status: 500 });
