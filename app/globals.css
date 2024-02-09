@@ -58,7 +58,11 @@ h3 {
 
 /* Navbar */
 .navbar {
-  @apply top-0 z-10 sticky flex items-center justify-between py-3 px-10;
+  @apply top-0 z-20 sticky flex items-center py-3;
+}
+
+.navbar-container {
+  @apply max-w-7xl mx-auto flex justify-between w-full px-3
 }
 
 .nav-links {
@@ -74,7 +78,7 @@ h3 {
 }
 
 .profile-icon {
-  @apply w-12 h-12 rounded-full cursor-pointer border object-cover;
+  @apply w-10 h-10 rounded-full cursor-pointer border object-cover;
 }
 
 .icon {
@@ -126,6 +130,9 @@ h3 {
 
 /* Feed */
 .wrapper {
-  @apply max-w-7xl lg:mx-auto p-5 md:px-10 xl:px-0 w-full;
+  @apply max-w-7xl sm:mx-auto p-5 md:px-10 w-full;
 }
 
+.selected {
+  @apply bg-[#F6F6F6] text-heading4-bold
+}

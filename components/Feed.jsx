@@ -14,24 +14,24 @@ const Feed = () => {
 
   const [workList, setWorkList] = useState([]);
 
-  // const getWorkList = async () => {
-  //   const response = await fetch(`/api/work/list/${selectedCategory}`);
-  //   const data = await response.json();
-  //   setWorkList(data);
-  //   setLoading(false);
-  // };
+  const getWorkList = async () => {
+    const response = await fetch(`/api/work/list/${selectedCategory}`);
+    const data = await response.json();
+    setWorkList(data);
+    setLoading(false);
+  };
 
-  // useEffect(() => {
-  //   getWorkList();
-  // }, [selectedCategory]);
+  useEffect(() => {
+    getWorkList();
+  }, [selectedCategory]);
 
   return (
     <>
-      <div className="wrapper sticky top-[72px] flex flex-wrap sm:gap-8 my-8 justify-center">
+      <div className="wrapper sticky top-[72px] flex flex-wrap sm:gap-8 mb-8 justify-center">
         {categories?.map((item, index) => (
           <p
             onClick={() => setSelectedCategory(item)}
-            className={`${item === selectedCategory ? "selected" : ""} p-1 cursor-pointer hover:bg-[#F6F6F6] rounded-lg`}
+            className={`${item === selectedCategory ? "selected" : "text-grey-1"} text-heading4-bold p-1 cursor-pointer hover:bg-[#F6F6F6] rounded-lg`}
             key={index}
           >
             {item}

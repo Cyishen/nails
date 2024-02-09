@@ -8,10 +8,10 @@ export const GET = async (req, { params }) => {
 
     let workList
 
-    if (category !== "All") {
-      workList = await Work.find ({ category }).populate("creator")
+    if (category !== "全部") {
+      workList = await Work.find ({ category }).populate("creator").sort({ _id: -1 })
     } else {
-      workList = await Work.find().populate("creator")
+      workList = await Work.find().populate("creator").sort({ _id: -1 })
     }
     // console.log("Work List:", workList);
 

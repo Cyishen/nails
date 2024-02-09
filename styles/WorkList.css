@@ -1,0 +1,19 @@
+.work-list {
+  @apply max-w-[1390px] flex overflow-hidden mx-auto px-3 py-10 sm:px-10 md:px-16 lg:px-20 mb-20
+}
+
+ul {
+  @apply grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 sm:gap-5
+}
+
+.data-none {
+  @apply min-h-[200px] w-full flex-col gap-3 rounded-[14px] py-28 text-center bg-bg-1
+}
+
+h3 {
+ @apply text-body-bold
+}
+
+P {
+ @apply text-small-medium
+}
