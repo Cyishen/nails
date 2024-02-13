@@ -77,6 +77,10 @@ h3 {
   @apply flex gap-8 items-center;
 }
 
+.login {
+  @apply flex items-center font-medium 
+}
+
 .profile-icon {
   @apply w-10 h-10 rounded-full cursor-pointer border object-cover;
 }

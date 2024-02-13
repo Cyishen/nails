@@ -2,6 +2,7 @@ import { Delete, Favorite, FavoriteBorder } from "@mui/icons-material";
 import "@styles/WorkCard.scss";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import Link from 'next/link'
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, EffectFade, Autoplay } from 'swiper/modules';
@@ -9,7 +10,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/effect-fade';
 
-const convertToBase64 = (photo) => {
+export const convertToBase64 = (photo) => {
   return `data:${photo.contentType};base64,${Buffer.from(photo.data).toString('base64')}`;
 };
 
@@ -47,16 +48,19 @@ const WorkCard = ({ work }) => {
   };
 
   return (
-    <div className="work-card">
+    <div 
+      className="work-card" 
+      // onClick={() => { router.push(`/works/${work._id}`) }}
+    >
       <div className="slider-container">
-        <div className="slider">
+        <Link href={`/works/${work._id}`} className="slider">
         {/* //TODO* single photo */}
           {work.workPhotos && (
             <div className="slide">
               <img src={convertToBase64(work.workPhotos[0])} alt="work" />
             </div>
           )}
-        </div>
+        </Link>
 
         {/* //TODO? map all photo */}
         {/* <Swiper

@@ -99,8 +99,8 @@ const Navbar = () => {
             onClick={() => setDropdownMenu(!dropdownMenu)}
           >
             {!user ? (
-              <Link href="/login" className="flex font-medium">
-                <p>LogIn</p>
+              <Link href="/login" className="login">
+                <p>Log In</p>
                 <Person />
               </Link>
             ) : (
@@ -115,12 +115,12 @@ const Navbar = () => {
           {dropdownMenu && user && (
             <div className='dropdown-menu'>
               <Link href="/profile">Profile</Link>
-              <Link href={`/shop?id=${user._id}`}>Your Shop</Link>
-              <Link href="/wishlist">Favorites</Link>
+              <Link href={`/shop/${user._id}`}>Your Shop</Link>
+              <Link href="/favorite">Favorites</Link>
               <Link href="/cart">Cart</Link>
               <Link href="/order">Orders</Link>
               <Link href="/works/create">Create</Link>
-              <a onClick={handleLogout}>Log-Out</a>
+              <a onClick={handleLogout}>Log Out</a>
             </div>
           )}
         </div>
