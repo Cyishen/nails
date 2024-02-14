@@ -10,8 +10,15 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/effect-fade';
 
+// export const convertToBase64 = (photo) => {
+//   return `data:${photo.contentType};base64,${Buffer.from(photo.data).toString('base64')}`;
+// };
 export const convertToBase64 = (photo) => {
-  return `data:${photo.contentType};base64,${Buffer.from(photo.data).toString('base64')}`;
+  if (photo?.contentType && photo?.data) {
+    return `data:${photo.contentType};base64,${Buffer.from(photo.data).toString('base64')}`;
+  } else {
+    return '';
+  }
 };
 
 const WorkCard = ({ work }) => {
@@ -21,7 +28,7 @@ const WorkCard = ({ work }) => {
     const hasConfirmed = confirm("Are you sure you want to delete this work?");
     if (hasConfirmed) {
       try {
-        await fetch(`api/work/${work._id}`, {
+        await fetch(`/api/work/${work._id}`, {
           method: "DELETE",
         });
         window.location.reload();
@@ -36,22 +43,23 @@ const WorkCard = ({ work }) => {
   const userId = session?.user?._id;
 
   /* ADD TO WISHLIST */
-  const wishlist = session?.user?.wishlist;
-  const isLiked = wishlist?.find((item) => item?._id === work._id);
+  const favorites = session?.user?.favorites;
+  const isLiked = favorites?.find((item) => item?._id === work._id);
 
-  const patchWishlist = async () => {
-    const response = await fetch(`api/user/${userId}/wishlist/${work._id}`, {
+  const patchLike = async () => {
+    if (!userId) {
+      confirm('Login to add you like')
+      return;
+    }
+    const response = await fetch(`api/users/${userId}/favorite/${work._id}`, {
       method: "PATCH",
     });
     const data = await response.json();
-    update({ user: { wishlist: data.wishlist } })
+    update({ user: { favorites: data.favorites } })
   };
 
   return (
-    <div 
-      className="work-card" 
-      // onClick={() => { router.push(`/works/${work._id}`) }}
-    >
+    <div className="work-card">
       <div className="slider-container">
         <Link href={`/works/${work._id}`} className="slider">
         {/* //TODO* single photo */}
@@ -122,7 +130,7 @@ const WorkCard = ({ work }) => {
           />
         </div>
       ) : (
-        <div className="icon" onClick={(e) => { e.stopPropagation(); patchWishlist(); }} >
+        <div className="icon" onClick={(e) => { e.stopPropagation(); patchLike(); }} >
           {isLiked ? (
             <Favorite
               sx={{

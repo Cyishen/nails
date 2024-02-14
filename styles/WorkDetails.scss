@@ -139,7 +139,7 @@
   .profile {
     display: flex;
     gap: 20px;
-    align-items: start;
+    align-items: flex-start;
     cursor: pointer;
     width: 100%;
 
@@ -168,7 +168,7 @@
   .add {
     display: flex;
     gap: 10px;
-    justify-content: end;
+    justify-content: flex-end;
 
     @include sm {
       justify-content: space-between;

@@ -7,6 +7,7 @@ import IconButton from '@mui/material/IconButton';
 
 import { useRouter } from 'next/navigation';
 import { useSession } from "next-auth/react";
+import Link from 'next/link'
 import "@styles/WorkDetails.scss";
 
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -119,15 +120,16 @@ const WorkDetails = ( { params } ) => {
           {work.creator?._id === userId ? (
             <div className='like'>
               <span>Edit</span>
-              <IconButton
-                type="button"
-                aria-label="edit"
-                size="small"
-                color="primary"  
-                onClick={() => { router.push(`/works/${id}/update`) }} 
-              >
-                <Edit />
-              </IconButton>
+              <Link href={`/works/${id}/update`}>
+                <IconButton
+                  type="button"
+                  aria-label="edit"
+                  size="small"
+                  color="primary"  
+                >
+                  <Edit />
+                </IconButton>
+              </Link>
             </div>
           ) : (
             <div className="like">

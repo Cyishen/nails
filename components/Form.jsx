@@ -4,6 +4,20 @@ import { BiTrash } from "react-icons/bi";
 import Button from '@mui/material/Button';
 
 import "@styles/WorkForm.css"
+import { convertToBase64 } from "./WorkCard";
+
+export const base64ToBlobUrl = (base64String, contentType) => {
+  console.log("Base64 String:", base64String); 
+  const byteCharacters = atob(base64String);
+  const byteNumbers = new Array(byteCharacters.length);
+  for (let i = 0; i < byteCharacters.length; i++) {
+    byteNumbers[i] = byteCharacters.charCodeAt(i);
+  }
+  const byteArray = new Uint8Array(byteNumbers);
+  const blob = new Blob([byteArray], { type: contentType });
+  return URL.createObjectURL(blob);
+};
+
 
 const Form = ({ type, work, setWork, handleSubmit }) => {
   const handleUploadPhotos = (e) => {
@@ -56,7 +70,7 @@ const Form = ({ type, work, setWork, handleSubmit }) => {
         </div>
 
         <h3>Add some photos of your work</h3>
-        {work.photos.length < 1 && (
+        {work.photos?.length < 1 && (
           <div className="photos">
             <input
               id="image"
@@ -75,14 +89,18 @@ const Form = ({ type, work, setWork, handleSubmit }) => {
           </div>
         )}
 
-        {work.photos.length > 0 && (
+        {work.photos?.length > 0 && (
           <div className="photos">
             {work?.photos?.map((photo, index) => (
               <div key={index} className="photo">
-                {photo instanceof Object ? (
-                  <img src={URL.createObjectURL(photo)} alt="work" className="w-full h-full" />
+                {photo instanceof Object ? ( 
+                  type === "Create" ? (
+                    <img src={URL.createObjectURL(photo)} alt="work" className="w-full h-full" />
+                  ) : (
+                    <img src={convertToBase64(photo)} alt="work" className="w-full h-full" />
+                  )
                 ) : (
-                  <img src={photo} alt="work" />
+                  <img src={convertToBase64(photo)} alt="work" className="w-full h-full" />
                 )}
                 <button type="button" onClick={() => handleRemovePhoto(index)} className="upload-delete">
                   <BiTrash />
