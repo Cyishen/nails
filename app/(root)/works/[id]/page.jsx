@@ -1,7 +1,7 @@
 "use client"
 
-import React, { useEffect, useRef, useState } from 'react'
-import { ArrowForwardIos, Edit, FavoriteBorder, ArrowBackIosNew, ShoppingCart, Favorite } from "@mui/icons-material";
+import React, { useEffect, useState } from 'react'
+import { ArrowForwardIos, Edit, FavoriteBorder, ShoppingCart, Favorite } from "@mui/icons-material";
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 
@@ -18,7 +18,6 @@ import 'swiper/css/pagination';
 import 'swiper/css/effect-fade';
 import 'swiper/css/thumbs';
 import 'swiper/css/free-mode';
-import { convertToBase64 } from '@components/WorkCard';
 
 
 const WorkDetails = ( { params } ) => {
@@ -40,7 +39,7 @@ const WorkDetails = ( { params } ) => {
         setWork(data);
       }
     };
-  
+
     getWorkDetails();
   }, [id]);
   // console.log("Work details:", work);
@@ -53,7 +52,6 @@ const WorkDetails = ( { params } ) => {
   };
 
   /* SELECT PHOTO TO SHOW */
-
   const [swiper, setSwiper] = useState(null);
   const handleThumbnailClick = (index) => {
     if (swiper) {
@@ -116,7 +114,7 @@ const WorkDetails = ( { params } ) => {
     return (
       <div className="work-details">
         <div className="title">
-          <h1>{work.category}</h1>
+          <h1 className="border">{work.category}</h1>
           {work.creator?._id === userId ? (
             <div className='like'>
               <span>Edit</span>
@@ -153,21 +151,21 @@ const WorkDetails = ( { params } ) => {
 
         <div className="slider-container">
           <Swiper
-              modules={[ Pagination, EffectFade ]}
+              modules={[ Pagination ]}
               spaceBetween={50}
               slidesPerView={1}
               pagination={{ clickable: true }} 
               grabCursor={true}
-              effect={'fade'}
-              className="slider"
               style={{
                 '--swiper-pagination-color': '#fff',
               }}
+              
+              className="slider"
               onSwiper={setSwiper}
             >
               {work.workPhotos?.map((photo, index) => (
                 <SwiperSlide key={index} className='slide'>    
-                  <img src={convertToBase64(photo)} alt="work" />
+                  <img src={photo} alt="work" />
                 </SwiperSlide>
               ))}
           </Swiper>
@@ -176,7 +174,7 @@ const WorkDetails = ( { params } ) => {
             <div className="photos grid sm:grid-cols-2 lg:grid-cols-3">
               {work.workPhotos.slice(0, visiblePhotos).map((photo, index) => (
                 <img 
-                  src={convertToBase64(photo)} 
+                  src={photo} 
                   alt="work-demo" 
                   key={index} 
                   onClick={() => handleThumbnailClick(index)}
@@ -186,54 +184,33 @@ const WorkDetails = ( { params } ) => {
               {visiblePhotos < work.workPhotos.length && (
                 <div className="show-more" onClick={loadMorePhotos}>
                   <ArrowForwardIos sx={{ fontSize: "40px" }} />
-                  Show More ({work.workPhotos.length})
+                  Show More ({work.workPhotos?.length})
                 </div>
               )}
             </div>
           )}
-
-          {/* <Swiper
-              onSwiper={setThumbsSwiper}
-              modules={[ Thumbs, FreeMode, Navigation ]}
-              spaceBetween={10}
-              slidesPerView={3}
-              freeMode={true}
-              watchSlidesProgress={true}
-              className='photos'
-            >
-              {work && work.workPhotos && (
-                <div>
-                  {work.workPhotos.slice(0, visiblePhotos).map((photo, index) => (
-                    <SwiperSlide key={index}>
-                      <img src={convertToBase64(photo)} alt="work-demo" />
-                    </SwiperSlide>
-                  ))}
-
-                  {visiblePhotos < work.workPhotos.length && (
-                    <div className="show-more" onClick={loadMorePhotos}>
-                      <ArrowForwardIos sx={{ fontSize: "40px" }} />
-                      Show More
-                    </div>
-                  )}
-                </div>
-              )}
-          </Swiper> */}
         </div>
 
         <hr />
 
         <div className="profile">
-          <img 
-            src={work.creator?.profileImage} 
-            alt="profile" 
-            onClick={() => router.push(`/shop/${work.creator?._id}`)}
-          />
-          <h3>設計師: {work.creator?.username}</h3>
+          <div className="profile-shop" >
+            <img src={work.creator?.profileImage} alt="profile" />
+
+            <div className="profile-name">
+              <p>設計師</p>
+              <h3>{work.creator?.username}</h3>
+            </div>
+
+            <h2 onClick={() => router.push(`/shop/${work.creator?._id}`)}>
+              逛逛我的設計
+            </h2>
+          </div>
         </div>
         
         <hr />
 
-        <h1 className='mb-5'>{work.title}</h1>
+        <h3 className='mb-5'>{work.title}</h3>
         <div className='work-content'>
           {work.description?.split('\n').map((line, index) => (
             <div key={index}>

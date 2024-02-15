@@ -7,6 +7,20 @@
 
   &:hover {
     box-shadow: 0 3px 10px 2px rgba(0, 0, 0, 0.2);
+    background: #F6F8FD;
+
+    .info {
+      .info-title {
+        .cate {
+          background: #B86B77;
+          color: white;
+        }
+        .price {
+          background: #B86B77;
+          color: white;
+        }
+      }
+    }
   }
 
   .slider-container {
@@ -14,27 +28,6 @@
     overflow: hidden;
     border-radius: 10px;
     margin-bottom: 10px;
-
-    // @include lg {
-    //   width: 220px;
-    // }
-
-    // @include ml {
-    //   width: 220px;
-    // }
-
-    // @include md {
-    //   width: 200px;
-    // }
-
-    // @include sm {
-    //   width: 180px;
-    // }
-
-    // @include smm {
-    //   width: 160px;
-    // }
-    
     
     .slider {
       display: flex;
@@ -72,16 +65,17 @@
       width: 100%;
       display: flex;
       justify-content: space-between;
+      align-items: center;
 
       .cate {
         background: #F6F6F6;
-        padding: 10px;
-        border-radius: 10px;
+        padding: 5px 10px;
+        border-radius: 5px;
       }
       .price {
         background: #F6F6F6;
         padding: 10px;
-        border-radius: 10px;
+        border-radius: 5px;
         font-weight: 700;
         font-size: 17px;
       }
@@ -106,22 +100,35 @@
       justify-content: flex-start;
       align-items: center;
       gap: 10px;
-      cursor: pointer;
-      
+
       img {
         width: 50px;
         height: 50px;
         border-radius: 50%;
         object-fit: cover;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+        
+        &:hover {
+          transform: scale(1.1);
+        }
       }
-
-      span {
-        font-size: 15px;
-        font-weight: 600;
+      
+      .creator-name {
+        display: flex;
+        flex-direction: column;
         margin-top: auto;
+
+        p {
+          color: #737373;
+        }
+
+        span {
+          font-size: 15px;
+          font-weight: 600;
+        }
       }
     }
-
   }
 
   .icon {
@@ -131,7 +138,7 @@
     border: none;
     font-size: 20px;
     cursor: pointer;
-    z-index: 10;
+    z-index: 5;
     transition: transform 0.3s ease;
 
     &:hover {

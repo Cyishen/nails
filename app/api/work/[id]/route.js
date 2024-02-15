@@ -29,18 +29,16 @@ export const PATCH = async (req, { params }) => {
     const price = data.get("price")
     const photos = data.getAll("workPhotos")
 
-    const workPhotos = []
-
-    for (const photo of photos) {
-      if (photo instanceof Object) {
-        const bytes = await photo.arrayBuffer()
-        const buffer = Buffer.from(bytes)
-  
-        workPhotos.push({ data: buffer, contentType: photo.type })
-      } else {
-        workPhotos.push(photo)
-      }
-    }
+    // const workPhotos = []
+    // for (const photo of photos) {
+    //   if (photo instanceof Object) {
+    //     const bytes = await photo.arrayBuffer()
+    //     const buffer = Buffer.from(bytes)
+    //     workPhotos.push({ data: buffer, contentType: photo.type })
+    //   } else {
+    //     workPhotos.push(photo)
+    //   }
+    // }
 
     /* Find the existing Work */
     const existingWork = await Work.findById(params.id)
@@ -54,7 +52,7 @@ export const PATCH = async (req, { params }) => {
     existingWork.title = title
     existingWork.description = description
     existingWork.price = price
-    existingWork.workPhotos = workPhotos
+    existingWork.workPhotos = photos
 
     await existingWork.save()
 

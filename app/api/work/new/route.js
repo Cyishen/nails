@@ -17,12 +17,16 @@ export async function POST (req) {
 
     const workPhotos = []
 
+    /* Cloudinary URL */
     for (const photo of photos) {
-      const bytes = await photo.arrayBuffer()
-      const buffer = Buffer.from(bytes)
-
-      workPhotos.push({ data: buffer, contentType: photo.type })
+      workPhotos.push(photo);
     }
+    /* Node Buffer */
+    // for (const photo of photos) {
+    //   const bytes = await photo.arrayBuffer()
+    //   const buffer = Buffer.from(bytes)
+    //   workPhotos.push({ data: buffer, contentType: photo.type })
+    // }
 
     /* Create a new Work */
     const newWork = new Work({

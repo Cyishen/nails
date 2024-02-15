@@ -19,8 +19,8 @@ const WorkList = ({ data }) => {
         </div>
       ) : (
         <div className="wrapper data-none">
-          <h3>emptyTitle</h3>
-          <p>emptyStateSubtext</p>
+          <h3>No Design display</h3>
+          <p>Come back later</p>
         </div>
       )} 
     </>

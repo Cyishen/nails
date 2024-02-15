@@ -10,9 +10,6 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/effect-fade';
 
-// export const convertToBase64 = (photo) => {
-//   return `data:${photo.contentType};base64,${Buffer.from(photo.data).toString('base64')}`;
-// };
 export const convertToBase64 = (photo) => {
   if (photo?.contentType && photo?.data) {
     return `data:${photo.contentType};base64,${Buffer.from(photo.data).toString('base64')}`;
@@ -65,7 +62,7 @@ const WorkCard = ({ work }) => {
         {/* //TODO* single photo */}
           {work.workPhotos && (
             <div className="slide">
-              <img src={convertToBase64(work.workPhotos[0])} alt="work" />
+              <img src={work.workPhotos[0]} alt="work" />
             </div>
           )}
         </Link>
@@ -106,14 +103,18 @@ const WorkCard = ({ work }) => {
 
         <div className="creator">
           <img 
-            src={work.creator.profileImage} 
+            src={work.creator?.profileImage || "/assets/person.jpg"} 
             alt="creator"
             onClick={(e) => {
               e.stopPropagation();
-              router.push(`/shop?id=${work.creator._id}`)
+              router.push(`/shop/${work.creator?._id}`)
             }} 
           />
-          <span>{work.creator.username}</span>
+          
+          <div className="creator-name">
+            <p>設計師</p>
+            <span>{work.creator.username}</span>
+          </div>
         </div>
       </div>
 

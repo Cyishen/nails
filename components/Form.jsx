@@ -5,27 +5,16 @@ import Button from '@mui/material/Button';
 
 import "@styles/WorkForm.css"
 import { convertToBase64 } from "./WorkCard";
-
-export const base64ToBlobUrl = (base64String, contentType) => {
-  console.log("Base64 String:", base64String); 
-  const byteCharacters = atob(base64String);
-  const byteNumbers = new Array(byteCharacters.length);
-  for (let i = 0; i < byteCharacters.length; i++) {
-    byteNumbers[i] = byteCharacters.charCodeAt(i);
-  }
-  const byteArray = new Uint8Array(byteNumbers);
-  const blob = new Blob([byteArray], { type: contentType });
-  return URL.createObjectURL(blob);
-};
-
+import { CldUploadButton } from "next-cloudinary";
 
 const Form = ({ type, work, setWork, handleSubmit }) => {
-  const handleUploadPhotos = (e) => {
-    const newPhotos = e.target.files;
+  
+  const handleUploadPhotos = (result) => {
+    const newPhotos = result?.info?.secure_url;
     setWork((prevWork) => {
       return {
         ...prevWork,
-        photos: [...prevWork.photos, ...newPhotos],
+        photos: [...prevWork.photos, newPhotos],
       };
     });
   };
@@ -51,12 +40,12 @@ const Form = ({ type, work, setWork, handleSubmit }) => {
 
   return (
     <div className="work-form-container">
-      <h1 className="mb-7">{type} Your Work</h1>
+      <h1 className="mb-7">{type} 妳的設計</h1>
 
       <form onSubmit={handleSubmit} className="work-form">
-        <h3>Which of these categories best describes your work?</h3>
+        <h3>哪個類型接近妳的設計?</h3>
         <div className="work-category-list">
-          {categories?.map((item, index) => (
+          {categories?.slice(1).map((item, index) => (
             <p
               key={index}
               className={`${work.category === item ? "selected" : ""} work-category-single`}
@@ -69,8 +58,30 @@ const Form = ({ type, work, setWork, handleSubmit }) => {
           ))}
         </div>
 
-        <h3>Add some photos of your work</h3>
-        {work.photos?.length < 1 && (
+        <h3>加入圖片～吸引更多人吧</h3>
+        <div className="photos">
+          {work?.photos?.map((photo, index) => (
+            <div key={index} className="photo">
+              <img src={photo} alt="work" className="w-full h-full" />
+              <button type="button" onClick={() => handleRemovePhoto(index)} className="upload-delete">
+                <BiTrash />
+              </button>
+            </div>
+          ))}
+          
+          <CldUploadButton
+            options={{ maxFiles: 10 }}
+            onUpload={handleUploadPhotos} 
+            uploadPreset="pynmmnkw" 
+            className="upload-label"
+          >
+            <div className="text-[60px]">
+              <IoIosImages />
+            </div>
+            <p>Upload from your device</p>
+          </CldUploadButton>
+        </div>
+        {/* {work.photos?.length < 1 && (
           <div className="photos">
             <input
               id="image"
@@ -123,11 +134,11 @@ const Form = ({ type, work, setWork, handleSubmit }) => {
               <p>Upload from your device</p>
             </label>
           </div>
-        )}
+        )} */}
 
-        <h3>What make your Work attractive?</h3>
+        <h3>詳細資訊</h3>
         <div className="description">
-          <p className="mt-5 mb-3">Title</p>
+          <p className="mt-5 mb-3">標題</p>
           <input
             type="text"
             placeholder="Title"
@@ -138,7 +149,7 @@ const Form = ({ type, work, setWork, handleSubmit }) => {
             className="border px-4 py-4 rounded-lg focus:outline-none w-full"
           />
 
-          <p className="mt-5 mb-3">Description</p>
+          <p className="mt-5 mb-3">描敘</p>
           <textarea
             type="text"
             placeholder="Description"
@@ -149,7 +160,7 @@ const Form = ({ type, work, setWork, handleSubmit }) => {
             className="border px-4 py-4 rounded-lg focus:outline-none w-full"
           />
 
-          <p className="mt-5 mb-3">Now, Set your price</p>
+          <p className="mt-5 mb-3">價格</p>
           <span className="font-semibold mr-5">$</span>
           <input
             type="number"
@@ -162,7 +173,7 @@ const Form = ({ type, work, setWork, handleSubmit }) => {
           />
         </div>
 
-        <Button variant="contained" color="success" className="submit_btn mt-10 bg-pink-1" type="submit">PUBLISH YOUR WORK</Button>
+        <Button variant="contained" color="success" className="submit_btn mt-10 bg-pink-1" type="submit">建立作品</Button>
       </form>
     </div>
   );

@@ -19,8 +19,6 @@ export const connectToDB = async () => {
       cached.promise = await mongoose.connect(MONGODB_URI, {
         dbName: 'nails',
         bufferCommands: false,
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
       });
     }
 

@@ -28,8 +28,8 @@
     }
 
     h1 {
-      background: rgb(240, 240, 240);
-      padding: 10px;
+      background: #F6F8FD;
+      padding: 5px 10px;
       border-radius: 5px;
       font-size: 20px;
       font-weight: 700;
@@ -39,6 +39,7 @@
       display: flex;
       align-items: center;
       gap: 3px;
+      padding: 0 10px;
     }
 
     span {
@@ -137,22 +138,50 @@
   }
 
   .profile {
+    width: 100%;
     display: flex;
     gap: 20px;
     align-items: flex-start;
-    cursor: pointer;
-    width: 100%;
 
-    img {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      margin: 0;
-      object-fit: cover;
+    .profile-shop {
+      display: flex;
+      gap: 20px;
+
+      img {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        margin: 0;
+        object-fit: cover;
+      }
+
+      .profile-name{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+  
+        p {
+          color: #737373;
+        }
+      }
+
+      h2 {
+        display: flex;
+        font-size: 20px;
+        font-weight: 700;
+        align-items: center;
+        cursor: pointer;
+
+        &:hover {
+          color: #B86B77;
+          text-decoration: underline;
+        }
+      }
     }
   }
 
-  h1 {
+  h3 {
+    font-size: 20px;
     font-weight: 700;
     text-transform: capitalize;
   }
@@ -176,7 +205,7 @@
 
     .price {
       width: 80px;
-      background: #F6F6F6;
+      background: #F6F8FD;
       text-align: center;
       padding: 10px;
       border-radius: 5px;

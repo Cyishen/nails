@@ -71,7 +71,7 @@ const Profile = () => {
     <Loader />
   ) : (
     <div className="profile-page">
-      <h1 className="text-heading3-bold">Edit Your Profile</h1>
+      <h1 className="text-heading3-bold">編輯個人資料</h1>
 
       <form className="edit-profile" onSubmit={handleSubmit(updateUser)}>
         <div className="input">
@@ -104,7 +104,7 @@ const Profile = () => {
             alt="profile"
             className="w-40 h-40 rounded-full object-cover"
           />
-          <div className="flex flex-col gap-3">
+          {/* <div className="flex flex-col gap-3">
             <label htmlFor="profileImage" className="text-body-bold cursor-pointer flex flex-col items-center" >
               Upload new photo
               <img src="/assets/upload.svg" alt="upload" width={50} height={50} />
@@ -117,21 +117,21 @@ const Profile = () => {
               onChange={handleImageChange}
               className="hidden"
               />
-          </div>
-          {/* <CldUploadButton
+          </div> */}
+          <CldUploadButton
             options={{ maxFiles: 1 }}
             onUpload={uploadPhoto}
             uploadPreset="pynmmnkw"
           >
             <div className="flex flex-col items-center gap-3">
-              <p className="text-body-bold">Upload new photo</p>
+              <p className="text-body-bold">上傳個人圖像</p>
               <img src="/assets/upload.svg" alt="upload" width={50} height={50}/>
             </div>
-          </CldUploadButton> */}
+          </CldUploadButton>
         </div>
 
         <button className="btn" type="submit">
-          Save Changes
+          儲存
         </button>
       </form>
     </div>

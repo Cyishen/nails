@@ -58,7 +58,7 @@ h3 {
 
 /* Navbar */
 .navbar {
-  @apply top-0 z-20 sticky flex items-center py-3;
+  @apply top-0 z-20 sticky flex items-center py-3 h-[72px];
 }
 
 .navbar-container {
@@ -74,7 +74,7 @@ h3 {
 }
 
 .nav-right {
-  @apply flex gap-8 items-center;
+  @apply flex gap-8 items-center relative;
 }
 
 .login {
@@ -90,7 +90,7 @@ h3 {
 }
 
 .dropdown-menu {
-  @apply absolute top-16 p-3 flex flex-col gap-3 right-10 z-20 w-32 border bg-white rounded-xl;
+  @apply absolute p-3 flex flex-col gap-3 top-12 right-0 w-32 border bg-white rounded-xl;
 }
 
 .dropdown-menu > a {
@@ -138,5 +138,5 @@ h3 {
 }
 
 .selected {
-  @apply bg-[#F6F6F6] text-heading4-bold
+  @apply bg-bg-1 text-heading4-bold
 }

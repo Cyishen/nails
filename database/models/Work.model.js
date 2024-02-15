@@ -6,7 +6,8 @@ const WorkSchema = new Schema({
   title: { type: String },
   description: { type: String },
   price: { type: Number },
-  workPhotos: [{ data: Buffer, contentType: String }] 
+  workPhotos: { type: [{ type: String }], default: [] }
+  // workPhotos: [{ data: Buffer, contentType: String }] 
 })
 
 const Work = models.Work || model("Work", WorkSchema)
