@@ -6,15 +6,11 @@ export const PATCH = async (req, { params }) => {
   try {
     await connectToDB();
 
-    const userId = params.id;
+    const userId = params.userId;
     const workId = params.workId;
-    // console.log('this workId:',workId)
+
     const user = await User.findById(userId);
     const work = await Work.findById(workId).populate("creator");
-    // console.log('this work is:',work)
-    // if (!work ) {
-    //   return new Response("work not found", { status: 404 });
-    // }
 
     const favoriteWork = user.favorites.find((item) => item._id.toString() === workId)
 
@@ -24,9 +20,15 @@ export const PATCH = async (req, { params }) => {
 
       return new Response(JSON.stringify({ message: "Work removed from favorites", favorites: user.favorites }), { status: 200 });
     } else {
-      user.favorites.push(work);
+      // user.favorites.push(work);
+      const { username, profileImage } = work.creator; 
+      user.favorites.push({ 
+        ...work.toObject(),
+        creator: { username, profileImage }
+      });
+
       await user.save()
-      
+
       return new Response(JSON.stringify({ message: "Work added to favorites", favorites: user.favorites }), { status: 200 });
     }
   } catch (err) {

@@ -1,7 +1,6 @@
 import { Delete, Favorite, FavoriteBorder } from "@mui/icons-material";
 import "@styles/WorkCard.scss";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import Link from 'next/link'
 import Image from 'next/image'
 
@@ -30,7 +29,6 @@ const WorkCard = ({ work }) => {
     }
   };
 
-  const router = useRouter();
   const { data: session, update } = useSession();
   const userId = session?.user?._id;
 
@@ -81,12 +79,12 @@ const WorkCard = ({ work }) => {
           
           <div className="creator-name">
             <p>設計師</p>
-            <span>{work.creator.username}</span>
+            <span>{work.creator?.username}</span>
           </div>
         </div>
       </div>
 
-      {userId === work?.creator._id ? (
+      {userId === work.creator?._id ? (
         <div className="icon" onClick={(e) => { e.stopPropagation(); handleDelete(); }}
         >
           <Delete
