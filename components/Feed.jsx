@@ -27,11 +27,11 @@ const Feed = () => {
 
   return (
     <>
-      <div className="wrapper sticky top-[72px] flex flex-wrap gap-2 sm:gap-8 mb-8 justify-center z-10 bg-white backdrop-blur-md opacity-80">
+      <div className="wrapper sticky top-[72px] flex flex-wrap gap-1 sm:gap-8 mb-8 justify-center z-10 bg-white backdrop-blur-md opacity-80">
         {categories?.map((item, index) => (
           <p
             onClick={() => setSelectedCategory(item)}
-            className={`${item === selectedCategory ? "selected" : "font-normal"} text-heading4-bold p-2 cursor-pointer hover:bg-bg-1 rounded-lg border`}
+            className={`${item === selectedCategory ? "selected" : "text-base-light sm:font-normal"} sm:text-heading4-bold p-2 cursor-pointer hover:bg-bg-1 rounded-lg border`}
             key={index}
           >
             {item}

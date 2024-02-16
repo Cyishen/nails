@@ -58,7 +58,7 @@ const Navbar = () => {
           <h1 className="text-heading1-bold">Nails</h1>
         </Link>
 
-        <div className="nav-links">
+        {/* <div className="nav-links">
           <Link 
             href="/"
             className={`${
@@ -75,7 +75,7 @@ const Navbar = () => {
           >
             MyShop
           </Link>
-        </div>
+        </div> */}
 
         <div className="nav-right">
           <div className="search">

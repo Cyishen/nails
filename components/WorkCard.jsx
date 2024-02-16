@@ -3,20 +3,15 @@ import "@styles/WorkCard.scss";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from 'next/link'
+import Image from 'next/image'
 
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination, EffectFade, Autoplay } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/pagination';
-import 'swiper/css/effect-fade';
-
-export const convertToBase64 = (photo) => {
-  if (photo?.contentType && photo?.data) {
-    return `data:${photo.contentType};base64,${Buffer.from(photo.data).toString('base64')}`;
-  } else {
-    return '';
-  }
-};
+// export const convertToBase64 = (photo) => {
+//   if (photo?.contentType && photo?.data) {
+//     return `data:${photo.contentType};base64,${Buffer.from(photo.data).toString('base64')}`;
+//   } else {
+//     return '';
+//   }
+// };
 
 const WorkCard = ({ work }) => {
 
@@ -58,38 +53,13 @@ const WorkCard = ({ work }) => {
   return (
     <div className="work-card">
       <div className="slider-container">
-        <Link href={`/works/${work._id}`} className="slider">
-        {/* //TODO* single photo */}
+        <div className="slider relative">
           {work.workPhotos && (
-            <div className="slide">
-              <img src={work.workPhotos[0]} alt="work" />
-            </div>
+            <Link href={`/works/${work._id}`} className="slide">
+              <Image src={work.workPhotos[0]} alt="work" fill/>
+            </Link>
           )}
-        </Link>
-
-        {/* //TODO? map all photo */}
-        {/* <Swiper
-          modules={[ Pagination, EffectFade, Autoplay ]}
-          spaceBetween={50}
-          slidesPerView={1}
-          pagination={{ clickable: true }} 
-          loop={true}
-          grabCursor={true}
-          effect={'fade'}
-          autoplay={{
-            delay: 2500,
-            disableOnInteraction: false,
-          }}
-          className="slider"
-        >
-          {work.workPhotos?.map((photo, index) => (
-            <SwiperSlide key={index}>
-              <div className="slide">
-                <img src={convertToBase64(photo)} alt="work" />
-              </div>
-            </SwiperSlide>
-          ))}
-        </Swiper> */}
+        </div>
       </div>
 
 
@@ -102,14 +72,12 @@ const WorkCard = ({ work }) => {
         <h3>{work.title}</h3>
 
         <div className="creator">
-          <img 
-            src={work.creator?.profileImage || "/assets/person.jpg"} 
-            alt="creator"
-            onClick={(e) => {
-              e.stopPropagation();
-              router.push(`/shop/${work.creator?._id}`)
-            }} 
-          />
+          <Link href={`/shop/${work.creator?._id}`}>
+            <img 
+              src={work.creator?.profileImage || "/assets/person.jpg"} 
+              alt="creator"
+            />
+          </Link>
           
           <div className="creator-name">
             <p>設計師</p>

@@ -138,5 +138,5 @@ h3 {
 }
 
 .selected {
-  @apply bg-bg-1 text-heading4-bold
+  @apply bg-bg-1 text-base-bold
 }

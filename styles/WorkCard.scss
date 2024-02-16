@@ -9,6 +9,10 @@
     box-shadow: 0 3px 10px 2px rgba(0, 0, 0, 0.2);
     background: #F6F8FD;
 
+    @include sm {
+      box-shadow: none;
+    }
+
     .info {
       .info-title {
         .cate {
@@ -83,7 +87,7 @@
 
     h3 {
       width: 100%;
-      height: 45px;
+      height: 40px;
       font-size: 16px;
       font-weight: 600;
       margin-bottom: 5px;
@@ -92,6 +96,12 @@
       -webkit-box-orient: vertical;
       overflow: hidden;
       -webkit-line-clamp: 2;
+
+      @include sm {
+        font-size: 14px;
+        font-weight: 400;
+      }
+  
     }
 
     .creator {

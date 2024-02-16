@@ -197,14 +197,16 @@ const WorkDetails = ( { params } ) => {
           <div className="profile-shop" >
             <img src={work.creator?.profileImage} alt="profile" />
 
-            <div className="profile-name">
-              <p>設計師</p>
-              <h3>{work.creator?.username}</h3>
-            </div>
+            <div className='profile-info'>
+              <div className="profile-name">
+                <p>設計師</p>
+                <h3>{work.creator?.username}</h3>
+              </div>
 
-            <h2 onClick={() => router.push(`/shop/${work.creator?._id}`)}>
-              逛逛我的設計
-            </h2>
+              <h2 onClick={() => router.push(`/shop/${work.creator?._id}`)}>
+                逛逛我的設計
+              </h2>
+            </div>
           </div>
         </div>
         

@@ -4,7 +4,6 @@ import { BiTrash } from "react-icons/bi";
 import Button from '@mui/material/Button';
 
 import "@styles/WorkForm.css"
-import { convertToBase64 } from "./WorkCard";
 import { CldUploadButton } from "next-cloudinary";
 
 const Form = ({ type, work, setWork, handleSubmit }) => {
@@ -81,60 +80,6 @@ const Form = ({ type, work, setWork, handleSubmit }) => {
             <p>Upload from your device</p>
           </CldUploadButton>
         </div>
-        {/* {work.photos?.length < 1 && (
-          <div className="photos">
-            <input
-              id="image"
-              type="file"
-              style={{ display: "none" }}
-              accept="image/*"
-              onChange={handleUploadPhotos}
-              multiple
-            />
-            <label htmlFor="image" className="upload-label">
-              <div className="text-[60px]">
-                <IoIosImages />
-              </div>
-              <p>Upload from your device</p>
-            </label>
-          </div>
-        )}
-
-        {work.photos?.length > 0 && (
-          <div className="photos">
-            {work?.photos?.map((photo, index) => (
-              <div key={index} className="photo">
-                {photo instanceof Object ? ( 
-                  type === "Create" ? (
-                    <img src={URL.createObjectURL(photo)} alt="work" className="w-full h-full" />
-                  ) : (
-                    <img src={convertToBase64(photo)} alt="work" className="w-full h-full" />
-                  )
-                ) : (
-                  <img src={convertToBase64(photo)} alt="work" className="w-full h-full" />
-                )}
-                <button type="button" onClick={() => handleRemovePhoto(index)} className="upload-delete">
-                  <BiTrash />
-                </button>
-              </div>
-            ))}
-            
-            <input
-              id="image"
-              type="file"
-              style={{ display: "none" }}
-              accept="image/*"
-              onChange={handleUploadPhotos}
-              multiple
-            />
-            <label htmlFor="image" className="upload-label">
-              <div className="text-[60px]">
-                <IoIosImages />
-              </div>
-              <p>Upload from your device</p>
-            </label>
-          </div>
-        )} */}
 
         <h3>詳細資訊</h3>
         <div className="description">
