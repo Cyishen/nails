@@ -1,0 +1,16 @@
+@import "./breakpoints.scss";
+
+
+.title-list {
+  margin: 40px 100px;
+  color: #0A065C;
+
+  @include sm {
+    margin: 40px 50px;
+  }
+}
+
+p {
+  display: flex;
+  justify-content: center;
+}
