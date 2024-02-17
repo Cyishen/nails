@@ -12,23 +12,24 @@ const Order = () => {
     <>
       <div className="orders">
         <div className="order-detail">
-          <h1>訂單</h1>
+          <h1>訂單 <span>({orders?.length})</span></h1>
+          {orders?.length === 0 && <h4>Empty Order</h4>}
+
           <div className="order-list">
             {orders?.map((order, index) => (
               <div className="order" key={index}>
                 <div className="order-title">
-                  <h4>訂單 ID: {order.id}</h4>
-                  <h2>金額: ${order.amountPaid}</h2>
+                  <h3>訂單 ID: {order.id}</h3>
+                  <h2>總金額: ${order.amountPaid}</h2>
                 </div>
 
                 <div className="order-items">
                   {order.orderItems.map((item, index) => (
                     <div className="product" key={index}>
                       <div className="product-info">
-                        <img src={item.image} alt={item.title}/>
+                        <img src={item?.image} alt="image"/>
                         <div className="orderItemInfo">
-                          <h4>{item.title}</h4>
-                          <p>Product ID: {item.productId}</p>
+                          <h3>{item.title}</h3>
                         </div>
                       </div>
 
@@ -38,6 +39,7 @@ const Order = () => {
                       </div>
                     </div>
                   ))}
+                    <hr />
                 </div>
               </div>
             ))}
