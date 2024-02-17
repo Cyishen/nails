@@ -1,0 +1,99 @@
+@import "./breakpoints.scss";
+
+
+.orders {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 50px 0;
+
+  .order-detail {
+    display: flex;
+    flex-direction: column;
+    background-color: #F6F8FD;
+    width: 60%;
+    padding: 60px;
+    max-width: 1280px;
+    border-radius: 14px;
+  
+    .order-list {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      margin: 50px 0;
+      max-width: 700px;
+  
+      .order {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding: 30px;
+        background-color: #F6F8FD;
+        border-radius: 10px;
+  
+        .order-title {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+  
+          @include mm {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+          }
+        }
+  
+        .order-items {
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+  
+          .product {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+  
+            @include mm {
+              flex-direction: column;
+              align-items: flex-start;
+            }
+  
+            .product-info {
+              display: flex;
+              align-items: center;
+              gap: 20px;
+  
+              @include mm {
+                flex-direction: column;
+                align-items: flex-start;
+              }
+  
+              img {
+                width: 80px;
+                height: 80px;
+                object-fit: cover;
+                border-radius: 10px;
+              }
+  
+              h4 {
+                margin-bottom: 10px;
+              }
+            }
+  
+            .product-info2 {
+              display: flex;
+              flex-direction: column;
+              gap: 10px;
+              align-items: center;
+  
+              @include mm {
+                align-items: flex-start;
+                margin-top: 10px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
