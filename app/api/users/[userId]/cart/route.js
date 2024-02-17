@@ -3,12 +3,13 @@ import { connectToDB } from "@database/mongodb/database";
 
 export const POST = async (req, { params }) => {
   try {
+
     const { cart } = await req.json()
     await connectToDB()
 
-    const userId = params.id
+    const userId = params.userId
     const user = await User.findById(userId)
-    
+
     user.cart = cart
     await user.save()
 

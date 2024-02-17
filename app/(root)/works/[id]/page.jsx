@@ -77,7 +77,7 @@ const WorkDetails = ( { params } ) => {
 
   /* ADD TO CART */
   const cart = session?.user?.cart;
-  const isInCart = cart?.find((item) => item?.workId === id);
+  const isInCart = cart?.find((item) => item?.id === id);
 
   const addToCart = async () => {
     const newCartItem = {
@@ -110,7 +110,7 @@ const WorkDetails = ( { params } ) => {
       return;
     }
   };
-
+  
     return (
       <div className="work-details">
         <div className="title">
@@ -224,7 +224,7 @@ const WorkDetails = ( { params } ) => {
         <div className="add">
           <h1 className="price">${work.price}</h1>
           <Button 
-            variant="contained" 
+            variant="outlined" 
             endIcon={<ShoppingCart />} 
             type="submit"
             onClick={addToCart} 

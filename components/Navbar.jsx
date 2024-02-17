@@ -10,6 +10,7 @@ import { IconButton } from '@mui/material'
 const Navbar = () => {
   const { data: session } = useSession();
   const user = session?.user;
+  const cart = user?.cart
 
   const router = useRouter();
   const pathname = usePathname();
@@ -116,7 +117,7 @@ const Navbar = () => {
             <div className='dropdown-menu'>
               <Link href="/profile">個人頁面</Link>
               <Link href="/favorite">收藏</Link>
-              <Link href="/cart">購物車</Link>
+              <Link href="/cart">購物籃<span>({cart?.length})</span></Link>
               <Link href="/order">訂單</Link>
               <Link href="/works/create">建立作品</Link>
               <Link href={`/shop/${user._id}`}>目前作品</Link>
