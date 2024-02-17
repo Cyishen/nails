@@ -30,7 +30,7 @@ export const POST = async (req, res) => {
         }),
         client_reference_id: userId,
         mode: "payment",
-        success_url: `${req.headers.get("origin")}/`,
+        success_url: `${req.headers.get("origin")}/order`,
         cancel_url: `${req.headers.get("origin")}/`,
       };
       // Create Checkout Sessions from body params.
