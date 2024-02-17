@@ -7,7 +7,7 @@ import { useSession } from "next-auth/react";
 import Loader from "@components/Loader";
 import "@styles/Cart.scss";
 
-// import getStripe from "@lib/getStripe";
+import getStripe from "@lib/getStripe";
 import toast from "react-hot-toast";
 
 const Cart = () => {
@@ -64,32 +64,32 @@ const Cart = () => {
   const subtotal = calcSubtotal(cart);
 
   //CHECKOUT
-  // const handleCheckout = async () => {
-  //   const stripe = await getStripe()
+  const handleCheckout = async () => {
+    const stripe = await getStripe()
 
-  //   const response = await fetch("/api/stripe", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify({ cart, userId }),
-  //   })
+    const response = await fetch("/api/stripe", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ cart, userId }),
+    })
 
-  //   if (response.statusCode === 500) {
-  //     return
-  //   }
+    if (response.statusCode === 500) {
+      return
+    }
 
-  //   const data = await response.json()
+    const data = await response.json()
 
-  //   toast.loading("Redirecting to checkout...")
+    toast.loading("Redirecting to checkout...")
 
-  //   const result = stripe.redirectToCheckout({ sessionId: data.id })
+    const result = stripe.redirectToCheckout({ sessionId: data.id })
 
-  //   if (result.error) {
-  //     console.log(result.error.message)
-  //     toast.error("Something went wrong")
-  //   }
-  // }
+    if (result.error) {
+      console.log(result.error.message)
+      toast.error("Something went wrong")
+    }
+  }
 
   return !session?.user?.cart ? <Loader /> : (
     <>
@@ -158,7 +158,8 @@ const Cart = () => {
                 </a>
                 <Button
                   variant="outlined"
-                  endIcon={<Delete />} 
+                  endIcon={<Delete />}
+                  onClick={handleCheckout} 
                 >
                   付款 Pay
                 </Button>
