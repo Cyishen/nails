@@ -9,12 +9,34 @@ export const GET = async (req, { params }) => {
     const { query } = params;
     let works = [];
 
-    works = await Work.find({
-      $or: [
-        { 'category': { $regex: query, $options: "i" } },
-        { 'title': { $regex: query, $options: "i" } },
-      ]
-    }).populate("creator");
+    // works = await Work.find({
+    //   $or: [
+    //     { 'category': { $regex: query, $options: "i" } },
+    //     { 'title': { $regex: query, $options: "i" } },
+    //   ]
+    // }).populate("creator");
+    works = await Work.aggregate([
+      {
+        $lookup: {
+          from: "users",         //從數據庫的集合users
+          localField: "creator", //Work裡面的creator
+          foreignField: "_id",   //User裡面的_id
+          as: "creator",         //兩個集合儲存於creator
+        },
+      },
+      {
+        $unwind: "$creator" // 將as: "creator" 展開文檔
+      },
+      {
+        $match: {
+          $or: [
+            { 'category': { $regex: query, $options: "i" } },
+            { 'title': { $regex: query, $options: "i" } },
+            { 'creator.username': { $regex: query, $options: "i" } },
+          ]
+        },
+      },
+    ]);
 
     if (!works) return new Response("No works found", { status: 404 });
 

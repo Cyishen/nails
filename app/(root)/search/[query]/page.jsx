@@ -8,6 +8,7 @@ import WorkList from '@components/WorkList';
 
 const SearchPage = () => {
   const { query } = useParams()
+  const decodedQuery = decodeURIComponent(query)
 
   const [loading, setLoading] = useState(true)
 
@@ -33,15 +34,15 @@ const SearchPage = () => {
 
   return loading ? <Loader /> : (
     <>
-      <h1 className='title-list'>'{query}' result</h1>
+      <h1 className='title-list'>Search: '{decodedQuery}' </h1>
 
       {workList.length > 0 ? (
         <WorkList data={workList} />
       ) : (
-        <>
-          <p>No results found.</p>
+        <div className='search-empty'>
+          <h4>No Results Found.</h4>
           <p>Try a different search.</p>
-        </>
+        </div>
       )}
     </>
   )

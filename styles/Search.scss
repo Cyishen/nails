@@ -4,13 +4,28 @@
 .title-list {
   margin: 40px 100px;
   color: #0A065C;
+  text-align: center;
 
   @include sm {
     margin: 40px 50px;
   }
 }
 
-p {
+.search-empty {
   display: flex;
   justify-content: center;
+  align-items: center;
+  min-height: 200px;
+  max-width: 1280px;
+  border-radius: 14px;
+  margin: 0 auto;
+  padding: 28px 0;
+  gap: 12px;
+  flex-direction: column;
+  background: #F6F8FD;
+
+  h4 {
+    font-size: 28px;
+    font-weight: 700;
+  }
 }
