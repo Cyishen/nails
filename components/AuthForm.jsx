@@ -148,7 +148,7 @@ const AuthForm = ({ type }) => {
               <p className="error">{errors.password.message}</p>
             )}
 
-            <Button variant="outlined" className="button" type="submit">
+            <Button variant="outlined" color="secondary" className="button2" type="submit">
             {type === "register" ? "Join Free" : isSubmitting ? "登入..." : "Let's Pretty"}
             </Button>
           </form>

@@ -52,6 +52,10 @@ h3 {
   @apply w-full px-5 py-3 mt-5 mb-7 rounded-xl cursor-pointer bg-pink-2 hover:bg-pink-1 text-white text-body-bold;
 }
 
+.button2 {
+  @apply w-full px-5 py-3 mt-5 mb-7 rounded-xl;
+}
+
 .link {
   @apply text-base-medium text-center hover:text-pink-1;
 }
