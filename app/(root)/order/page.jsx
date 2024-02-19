@@ -12,7 +12,7 @@ const Order = () => {
     <>
       <div className="orders">
         <div className="order-detail">
-          <h1>訂單 <span>({orders?.length})</span></h1>
+          <h1>已購買訂單 <span>({orders?.length})</span></h1>
           {orders?.length === 0 && <h4>Empty Order</h4>}
 
           <div className="order-list">

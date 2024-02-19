@@ -74,7 +74,7 @@ h3 {
 }
 
 .nav-right {
-  @apply flex gap-8 items-center relative;
+  @apply flex gap-3 sm:gap-8 items-center relative;
 }
 
 .login {
@@ -102,8 +102,17 @@ h3 {
 }
 
 .input-search {
-  @apply w-20 sm:w-40 bg-transparent outline-none text-body-medium;
+  @apply w-40 bg-transparent outline-none text-body-medium;
 }
+
+.search-box {
+  @apply sm:hidden w-full flex justify-between items-center gap-2 px-4 border rounded-full;
+}
+
+.input-search-box {
+  @apply w-full bg-transparent outline-none text-body-medium;
+}
+
 
 
 /* Profile Page */

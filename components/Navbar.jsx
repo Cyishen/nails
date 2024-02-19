@@ -1,6 +1,6 @@
 "use client";
 
-import { Search, Person } from "@mui/icons-material";
+import { Search, Person, ShoppingCart } from "@mui/icons-material";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
@@ -19,7 +19,6 @@ const Navbar = () => {
   const [dropdownMenu, setDropdownMenu] = useState(false);
 
   const [isScrolled, setIsScrolled] = useState(false);
-  
 
   const handleScroll = () => {
     if (window.scrollY > 10) {
@@ -89,19 +88,28 @@ const Navbar = () => {
             <IconButton
               aria-label="search" 
               color="primary"  
-              disabled={search === ""}
-              onClick={() => router.push(`/search/${search}`)}
+              // disabled={search === ""}
+              onClick={() => {
+                if (search !== "") {
+                  router.push(`/search/${search}`);
+                }
+              }}
             >
-              <Search sx={{ color: "primary" }} />
+              <Search />
             </IconButton>
           </div>
+
+          <Link href={!user ? "/login" : "/cart"} className="">
+            <ShoppingCart />
+            購物籃 <span>({cart?.length})</span>
+          </Link>
           
           <button  
             onClick={() => setDropdownMenu(!dropdownMenu)}
           >
             {!user ? (
               <Link href="/login" className="login">
-                <p>Log In</p>
+                <p>登入</p>
                 <Person />
               </Link>
             ) : (
@@ -118,9 +126,11 @@ const Navbar = () => {
               <Link href="/profile">個人頁面</Link>
               <Link href="/favorite">收藏</Link>
               <Link href="/cart">購物籃<span>({cart?.length})</span></Link>
-              <Link href="/order">訂單</Link>
+              <Link href="/order">已購買</Link>
+              <hr />
               <Link href="/works/create">建立作品</Link>
               <Link href={`/shop/${user._id}`}>目前作品</Link>
+              <hr />
               <a onClick={handleLogout}>Log Out</a>
             </div>
           )}

@@ -230,7 +230,7 @@ const WorkDetails = ( { params } ) => {
             onClick={addToCart} 
             disabled={!userId}
           >
-            加入購物車
+            加入購物籃
           </Button>
         </div>
       </div>

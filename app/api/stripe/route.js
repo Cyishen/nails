@@ -8,7 +8,6 @@ export const POST = async (req, res) => {
     try {
       const params = {
         submit_type: "pay",
-        mode: "payment",
         payment_method_types: ["card"],
         billing_address_collection: "auto",
 
@@ -18,9 +17,9 @@ export const POST = async (req, res) => {
               currency: "TWD",
               product_data: {
                 name: item.title,
-                images: [`${req.headers.get("origin")}/${item.image}`],
+                images: [item.image],
                 metadata: {
-                  productId: item.workId
+                  productId: item.id
                 }
               },
               unit_amount: item.price * 100,
@@ -31,7 +30,7 @@ export const POST = async (req, res) => {
         client_reference_id: userId,
         mode: "payment",
         success_url: `${req.headers.get("origin")}/order`,
-        cancel_url: `${req.headers.get("origin")}/`,
+        cancel_url: `${req.headers.get("origin")}/cart`,
       };
       // Create Checkout Sessions from body params.
       const session = await stripe.checkout.sessions.create(params);
