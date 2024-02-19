@@ -28,6 +28,10 @@
   @apply relative w-[100px] h-[100px] sm:w-[250px] sm:h-[250px]
 }
 
+.description {
+  @apply flex flex-wrap gap-4 mt-5 mb-10
+}
+
 .upload-label {
   @apply p-10 flex flex-col justify-center items-center cursor-pointer border border-dashed rounded-lg bg-white
 }

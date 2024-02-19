@@ -22,7 +22,7 @@ const AuthForm = ({ type }) => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm();
 
   const router = useRouter();
@@ -148,9 +148,9 @@ const AuthForm = ({ type }) => {
               <p className="error">{errors.password.message}</p>
             )}
 
-            <button className="button" type="submit">
-              {type === "register" ? "Join Free" : "Let's Pretty"}
-            </button>
+            <Button variant="outlined" className="button" type="submit">
+            {type === "register" ? "Join Free" : isSubmitting ? "登入..." : "Let's Pretty"}
+            </Button>
           </form>
 
           {type === "register" ? (

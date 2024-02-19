@@ -106,7 +106,7 @@ const Form = ({ type, work, setWork, handleSubmit }) => {
           />
 
           <p className="mt-5 mb-3">價格</p>
-          <span className="font-semibold mr-5">$</span>
+          <span className="font-semibold mt-5 mb-3">$</span>
           <input
             type="number"
             placeholder="Price"
@@ -118,7 +118,7 @@ const Form = ({ type, work, setWork, handleSubmit }) => {
           />
         </div>
 
-        <Button variant="contained" color="success" className="submit_btn mt-10 bg-pink-1" type="submit">建立作品</Button>
+        <Button variant="outlined" color="secondary" type="submit">建立作品</Button>
       </form>
     </div>
   );
