@@ -57,6 +57,9 @@ const Cart = () => {
   const removeFromCart = (cartItem) => {
     if (window.confirm('Are you sure you want to remove')) {
         const newCart = cart.filter((item) => item.id !== cartItem.id);
+        toast('移除商品成功!', {
+          icon: '🛒',
+        });
         updateCart(newCart);
     }
 };

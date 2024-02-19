@@ -8,6 +8,7 @@ import IconButton from '@mui/material/IconButton';
 import { useRouter } from 'next/navigation';
 import { useSession } from "next-auth/react";
 import Link from 'next/link'
+import toast from "react-hot-toast";
 import "@styles/WorkDetails.scss";
 
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -102,11 +103,12 @@ const WorkDetails = ( { params } ) => {
           body: JSON.stringify({ cart: newCart }),
         });
         update({ user: { cart: newCart } });
+        toast.success(' 🛒 已加入商品!')
       } catch (err) {
         console.log(err);
       }
     } else {
-      confirm("This item is already in your cart");
+      toast.error('This item is already in your cart!')
       return;
     }
   };

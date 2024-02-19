@@ -30,7 +30,7 @@ const Profile = () => {
     setValue,
     reset,
     handleSubmit,
-    formState: { error },
+    formState: { errors },
   } = useForm();
 
   const uploadPhoto = (result) => {
@@ -79,8 +79,8 @@ const Profile = () => {
             {...register("username", {
               required: "Username is required",
               validate: (value) => {
-                if (value.length < 3) {
-                  return "Username must be at least 3 characters";
+                if (value.length < 2) {
+                  return "Username must be at least 2 characters";
                 }
               },
             })}
@@ -90,8 +90,8 @@ const Profile = () => {
           />
           <PersonOutline sx={{ color: "#737373" }} />
         </div>
-        {error?.username && (
-          <p className="text-red-500">{error.username.message}</p>
+        {errors?.username && (
+          <p className="text-red-500">{errors.username.message}</p>
         )}
 
         <div className="flex items-center justify-between">
