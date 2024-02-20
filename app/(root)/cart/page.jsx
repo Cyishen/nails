@@ -1,12 +1,11 @@
 "use client";
 
-import { AddCircle, ArrowCircleLeft, Delete, RemoveCircle, } from "@mui/icons-material";
+import { AddCircle, ArrowCircleLeft, Delete, RemoveCircle,ContactlessOutlined } from "@mui/icons-material";
 import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
 import { useSession } from "next-auth/react";
 import Loader from "@components/Loader";
 import "@styles/Cart.scss";
-
 import getStripe from "@lib/getStripe";
 import toast from "react-hot-toast";
 
@@ -159,9 +158,10 @@ const Cart = () => {
                 <a href="/">
                   <ArrowCircleLeft /> 再逛一下
                 </a>
+                
                 <Button
                   variant="outlined"
-                  endIcon={<Delete />}
+                  endIcon={<ContactlessOutlined />}
                   onClick={handleCheckout} 
                 >
                   付款 Pay
