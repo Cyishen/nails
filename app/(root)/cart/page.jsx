@@ -93,6 +93,36 @@ const Cart = () => {
     }
   }
 
+  const handleLine = async () => {
+    try {
+      const response = await fetch("/api/line", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ cart, userId }),
+      });
+  
+      if (!response.ok) {
+        throw new Error("Failed to fetch");
+      }
+  
+      const data = await response.json();
+
+      if (data.error) {
+        console.log(data.error.message);
+        toast.error("Something went wrong");
+      } else {
+        const url = data.info.paymentUrl.web;
+        window.location.href = url;
+        // console.log("Line Pay success:", data);
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error(error.message);
+    }
+  };
+
   return !session?.user?.cart ? <Loader /> : (
     <>
       <div className="cart">
@@ -158,14 +188,25 @@ const Cart = () => {
                 <a href="/">
                   <ArrowCircleLeft /> 再逛一下
                 </a>
-                
-                <Button
-                  variant="outlined"
-                  endIcon={<ContactlessOutlined />}
-                  onClick={handleCheckout} 
-                >
-                  付款 Pay
-                </Button>
+
+                <div className="bottom-pay">
+                  <Button
+                    variant="outlined"
+                    color="success"
+                    onClick={handleLine} 
+                  >
+                    <img src="/assets/line-pay.svg" width={60}/>
+                  </Button>
+                  
+                  <Button
+                    variant="outlined"
+                    endIcon={<ContactlessOutlined />}
+                    onClick={handleCheckout} 
+                  >
+                    <img src="/assets/stripe.svg" width={40}/>
+                    付款
+                  </Button>
+                </div>
               </div>
             </div>
           )}
