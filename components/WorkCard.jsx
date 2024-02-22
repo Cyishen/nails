@@ -51,7 +51,7 @@ const WorkCard = ({ work }) => {
   return (
     <div className="work-card">
       <div className="slider-container">
-        <div className="slider relative">
+        <div className="slider">
           {work.workPhotos && (
             <Link href={`/works/${work._id}`} className="slide">
               <Image src={work.workPhotos[0]} alt="work" fill/>
@@ -70,12 +70,16 @@ const WorkCard = ({ work }) => {
         <h3>{work.title}</h3>
 
         <div className="creator">
-          <Link href={`/shop/${work.creator?._id}`}>
-            <img 
-              src={work.creator?.profileImage || "/assets/person.jpg"} 
-              alt="creator"
-            />
-          </Link>
+          <div className="creator-img">
+            <Link href={`/shop/${work.creator?._id}`}>
+              <Image 
+                src={work.creator?.profileImage || "/assets/person.jpg"} 
+                alt="creator"
+                width={50}
+                height={50}
+              />
+            </Link>
+          </div>
           
           <div className="creator-name">
             <p>設計師</p>

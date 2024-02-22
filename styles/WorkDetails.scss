@@ -124,11 +124,17 @@
   
       .show-more {
         display: flex;
+        flex-direction: column;
         gap: 20px;
         align-items: center;
         justify-content: center;
         cursor: pointer;
         background: #F6F8FD;
+
+        p {
+          text-align: center;
+          width: 140px;
+        }
       }
     }
   }
@@ -182,6 +188,7 @@
           font-weight: 700;
           align-items: center;
           cursor: pointer;
+          padding: 10px;
   
           @include smm {
             font-size: 18px;

@@ -186,7 +186,7 @@ const WorkDetails = ( { params } ) => {
               {visiblePhotos < work.workPhotos.length && (
                 <div className="show-more" onClick={loadMorePhotos}>
                   <ArrowForwardIos sx={{ fontSize: "40px" }} />
-                  Show More ({work.workPhotos?.length})
+                  <p>Show More ({work.workPhotos?.length})</p>
                 </div>
               )}
             </div>
@@ -205,7 +205,7 @@ const WorkDetails = ( { params } ) => {
                 <h3>{work.creator?.username}</h3>
               </div>
 
-              <h2 onClick={() => router.push(`/shop/${work.creator?._id}`)}>
+              <h2 onClick={() => router.push(`/shop/${work.creator?._id}`)} className='border rounded-lg'>
                 逛逛我的設計
               </h2>
             </div>
