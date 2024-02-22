@@ -8,6 +8,7 @@ import IconButton from '@mui/material/IconButton';
 import { useRouter } from 'next/navigation';
 import { useSession } from "next-auth/react";
 import Link from 'next/link'
+import Image from 'next/image'
 import toast from "react-hot-toast";
 import "@styles/WorkDetails.scss";
 
@@ -197,8 +198,12 @@ const WorkDetails = ( { params } ) => {
 
         <div className="profile">
           <div className="profile-shop" >
-            <img src={work.creator?.profileImage} alt="profile" />
-
+            <Image 
+              src={work.creator?.profileImage || "/assets/person.jpg"} 
+              alt="profile" 
+              width={60} 
+              height={60}
+            />
             <div className='profile-info'>
               <div className="profile-name">
                 <p>設計師</p>

@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { IconButton } from '@mui/material'
+import Image from 'next/image'
 
 const Navbar = () => {
   const { data: session } = useSession();
@@ -113,10 +114,12 @@ const Navbar = () => {
                 <Person />
               </Link>
             ) : (
-              <img 
+              <Image 
                 src={user?.profileImage || "/assets/person.jpg"} 
                 alt="profile" 
                 className="profile-icon"
+                width={40}
+                height={40}
               />
             )}
           </button>

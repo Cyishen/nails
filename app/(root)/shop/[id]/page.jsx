@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 import React, { useEffect, useState } from "react";
 import WorkList from "@components/WorkList";
 import Button from '@mui/material/Button';
+import Image from 'next/image'
 
 import "@styles/Shop.scss"
 
@@ -40,9 +41,11 @@ const Shop = ( { params } ) => {
       {loggedInUserId === id && (
         <div className="title">
           <div className="title-list">
-            <img 
-              src={profile.profileImage} 
+            <Image 
+              src={profile.profileImage || "/assets/person.jpg"} 
               alt="profile" 
+              width={140}
+              height={140}
             />
             <div className="title-name">
               <h1>Your</h1>
@@ -55,9 +58,11 @@ const Shop = ( { params } ) => {
       {loggedInUserId !== id && (
         <div className="title">
           <div className="title-list">
-            <img 
-              src={profile.profileImage} 
+            <Image 
+              src={profile.profileImage || "/assets/person.jpg"} 
               alt="profile" 
+              width={140}
+              height={140}
             />
             <div className="title-name">
               <h1>{profile.username}</h1>
@@ -66,6 +71,7 @@ const Shop = ( { params } ) => {
           </div>
         </div>
       )}
+      
       <div className="shop-focus">
         <h3>101 <span>關注</span></h3>
         <h3>101 <span>粉絲</span></h3>
