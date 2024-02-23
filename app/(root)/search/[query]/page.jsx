@@ -8,13 +8,14 @@ import WorkList from '@components/WorkList';
 
 const SearchPage = () => {
   const { query } = useParams()
+
   const decodedQuery = decodeURIComponent(query)
 
   const [loading, setLoading] = useState(true)
 
   const [workList, setWorkList] = useState([])
 
-  const getWorkList = async () => {
+  const getSearchWorkList = async () => {
     try {
       const response = await fetch(`/api/work/search/${query}`, {
         method: 'GET',
@@ -29,7 +30,7 @@ const SearchPage = () => {
   }
 
   useEffect(() => {
-    getWorkList()
+    getSearchWorkList()
   }, [query])
 
   return loading ? <Loader /> : (

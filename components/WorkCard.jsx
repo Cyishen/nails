@@ -3,6 +3,7 @@ import "@styles/WorkCard.scss";
 import { useSession } from "next-auth/react";
 import Link from 'next/link'
 import Image from 'next/image'
+import toast from "react-hot-toast";
 
 // export const convertToBase64 = (photo) => {
 //   if (photo?.contentType && photo?.data) {
@@ -13,6 +14,8 @@ import Image from 'next/image'
 // };
 
 const WorkCard = ({ work }) => {
+  const { data: session, update } = useSession();
+  const userId = session?.user?._id;
 
   /* DELETE WORK */
   const handleDelete = async () => {
@@ -29,16 +32,13 @@ const WorkCard = ({ work }) => {
     }
   };
 
-  const { data: session, update } = useSession();
-  const userId = session?.user?._id;
-
   /* ADD TO WISHLIST */
   const favorites = session?.user?.favorites;
   const isLiked = favorites?.find((item) => item?._id === work._id);
 
   const patchLike = async () => {
     if (!userId) {
-      confirm('Login to add you like')
+      toast.error('先登入~加入妳的喜愛 ❤️')
       return;
     }
     const response = await fetch(`api/users/${userId}/favorite/${work._id}`, {

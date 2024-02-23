@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useEffect, useState } from 'react'
-import { ArrowForwardIos, Edit, FavoriteBorder, ShoppingCart, Favorite } from "@mui/icons-material";
+import { ArrowForwardIos, Edit, FavoriteBorder, LocalMallOutlined, Favorite } from "@mui/icons-material";
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 
@@ -67,7 +67,7 @@ const WorkDetails = ( { params } ) => {
 
   const patchLike = async () => {
     if (!userId) {
-      confirm('Login to add you like')
+      toast.error('先登入~加入妳的喜愛 ❤️')
       return;
     }
     const response = await fetch(`api/users/${userId}/favorite/${work._id}`, {
@@ -78,9 +78,6 @@ const WorkDetails = ( { params } ) => {
   };
 
   /* ADD TO CART */
-  const cart = session?.user?.cart;
-  const isInCart = cart?.find((item) => item?.id === id);
-
   const addToCart = async () => {
     const newCartItem = {
       id,
@@ -91,28 +88,84 @@ const WorkDetails = ( { params } ) => {
       price: work.price,
       quantity: 1,
     };
-
-    if (!isInCart) {
-      const newCart = [...cart, newCartItem];
-
-      try {
-        await fetch(`/api/users/${userId}/cart`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ cart: newCart }),
-        });
-        update({ user: { cart: newCart } });
-        toast.success(' 🛒 已加入商品!')
-      } catch (err) {
-        console.log(err);
+  
+    if (!session) {
+      // 用戶未登入，新商品添加到本地購物車
+      let localCart = JSON.parse(localStorage.getItem('cart')) || [];
+      const isInLocalCart = localCart.find((item) => item.id === id);
+  
+      if (!isInLocalCart) {
+        localCart = [...localCart, newCartItem];
+        localStorage.setItem('cart', JSON.stringify(localCart));
+        toast.success(' 🛍️ 已加入商品!');
+      } else {
+        toast.error('商品已經存在!');
+        return;
       }
     } else {
-      toast.error('This item is already in your cart!')
-      return;
+      let userCart = session?.user?.cart || [];
+  
+      // 將新商品添加到用戶購物車
+      const isInUserCart = userCart.find((item) => item.id === id);
+
+      if (!isInUserCart) {
+        userCart = [...userCart, newCartItem];
+        
+        try {
+          await fetch(`/api/users/${userId}/cart`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ cart: userCart }),
+          });
+          update({ user: { ...session?.user, cart: userCart } });
+          toast.success(' 🛍️ 已加入商品!');
+        } catch (err) {
+          console.error(err);
+        }
+      } else {
+        toast.error('商品已經存在!');
+        return;
+      }
     }
   };
+  
+  // const cart = session?.user?.cart;
+  // const isInCart = cart?.find((item) => item?.id === id);
+
+  // const addToCart = async () => {
+  //   const newCartItem = {
+  //     id,
+  //     image: work.workPhotos[0],
+  //     title: work.title,
+  //     category: work.category,
+  //     creator: work.creator,
+  //     price: work.price,
+  //     quantity: 1,
+  //   };
+
+  //   if (!isInCart) {
+  //     const newCart = [...cart, newCartItem];
+
+  //     try {
+  //       await fetch(`/api/users/${userId}/cart`, {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify({ cart: newCart }),
+  //       });
+  //       update({ user: { cart: newCart } });
+  //       toast.success(' 🛒 已加入商品!')
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   } else {
+  //     toast.error('This item is already in your cart!')
+  //     return;
+  //   }
+  // };
   
     return (
       <div className="work-details">
@@ -232,12 +285,12 @@ const WorkDetails = ( { params } ) => {
           <h1 className="price">${work.price}</h1>
           <Button 
             variant="outlined" 
-            endIcon={<ShoppingCart />} 
+            endIcon={<LocalMallOutlined />} 
             type="submit"
             onClick={addToCart} 
-            disabled={!userId}
+            // disabled={!userId}
           >
-            加入購物籃
+            加入商品
           </Button>
         </div>
       </div>

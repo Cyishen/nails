@@ -1,72 +1,178 @@
 "use client";
 
-import { AddCircle, ArrowCircleLeft, Delete, RemoveCircle,ContactlessOutlined } from "@mui/icons-material";
+import { AddCircle, ArrowCircleLeft, Delete, RemoveCircle, ContactlessOutlined, LocalMallOutlined } from "@mui/icons-material";
 import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
 import { useSession } from "next-auth/react";
-import Loader from "@components/Loader";
+import { useEffect, useState } from "react";
+
 import "@styles/Cart.scss";
 import getStripe from "@lib/getStripe";
 import toast from "react-hot-toast";
+
 
 const Cart = () => {
   const { data: session, update } = useSession();
   const cart = session?.user?.cart;
   const userId = session?.user?._id;
+  const [localCart, setLocalCart] = useState([]);
+
+  // 在頁面加載時從本地存儲中獲取購物車數據
+  useEffect(() => {
+    const localCartData = JSON.parse(localStorage.getItem('cart')) || [];
+    setLocalCart(localCartData);
+  }, []);
+
+  // 在用戶登入後更新用戶的購物車數據
+  useEffect(() => {
+    if (userId && localCart.length > 0) {
+      updateCart(mergedCart);
+      // 更新用戶購物車後清空本地購物車數據
+      setLocalCart([]);
+      localStorage.removeItem('cart');
+    }
+  }, [userId, localCart]);
+
+  // 將本地購物車數據與用戶登錄後的購物車數據合併
+  const mergedCart = [...localCart, ...(session?.user?.cart || [])];
 
   const updateCart = async (cart) => {
-    const response = await fetch(`/api/users/${userId}/cart`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ cart }),
-    });
-    const data = await response.json();
-    update({ user: { cart: data } });
+    try {
+      const response = await fetch(`/api/users/${userId}/cart`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ cart }),
+      });
+      const data = await response.json();
+      update({ user: { cart: data } });
+    } catch (err) {
+      console.error('更新購物車數據時出錯：', err);
+    }
   };
 
-  //CALC ALL ITEMS
+  /* 計算 */
   const calcSubtotal = (cart) => {
     return cart?.reduce((total, item) => {
       return total + item.quantity * item.price;
     }, 0);
   };
 
-  const increaseQty = (cartItem) => {
-    const newCart = cart?.map((item) => {
-      if (item === cartItem) {
-        item.quantity += 1;
-        return item;
-      } else return item;
+  let subtotal;
+  if (!session) {
+    const localCart = JSON.parse(localStorage.getItem('cart')) || [];
+    subtotal = calcSubtotal(localCart);
+  } else {
+    subtotal = calcSubtotal(cart);
+  }
+
+  const updateUI = (newCart) => {  
+    newCart.forEach((item) => {
+      const quantityElement = document.getElementById(`quantity-number-${item.id}`);
+      const priceElement = document.getElementById(`price-number-${item.id}`);
+
+      if (quantityElement) {
+        quantityElement.textContent = item.quantity;
+      }
+      if (priceElement) { 
+        priceElement.textContent = (`$ ${item.quantity * item.price}`);
+      }
+
+      const subtotalElement = document.getElementById('subtotal');
+      if (subtotalElement) {
+        const newSubtotal = calcSubtotal(newCart);
+        subtotalElement.textContent = (`$ ${newSubtotal}`);
+      }
     });
-    updateCart(newCart);
+  };
+
+  const increaseQty = (cartItem) => {
+    if (session) {
+      const newCart = cart?.map((item) => {
+        if (item === cartItem) {
+          item.quantity += 1;
+        }
+        return item;
+      });
+      updateCart(newCart);
+    } else {
+      const localCart = JSON.parse(localStorage.getItem('cart')) || [];
+      const newLocalCart = localCart.map((item) => {
+        if (item.id === cartItem.id) {
+          item.quantity += 1;
+        }
+        return item;
+      });
+      localStorage.setItem('cart', JSON.stringify(newLocalCart));
+      updateUI(newLocalCart)
+    }
   };
 
   const decreaseQty = (cartItem) => {
-    const newCart = cart?.map((item) => {
-      if (item === cartItem && item.quantity > 1) {
-        item.quantity -= 1;
+    if (session) {
+      const newCart = cart?.map((item) => {
+        if (item === cartItem && item.quantity > 1) {
+          item.quantity -= 1;
+          return item;
+        } else return item;
+      });
+      updateCart(newCart);
+    } else {
+      const localCart = JSON.parse(localStorage.getItem('cart')) || [];
+      const newLocalCart = localCart.map((item) => {
+        if (item.id === cartItem.id && item.quantity > 1) {
+          item.quantity -= 1;
+        }
         return item;
-      } else return item;
-    });
-    updateCart(newCart);
+      });
+      localStorage.setItem('cart', JSON.stringify(newLocalCart));
+      updateUI(newLocalCart)
+    }
   };
 
+  /* 刪除 */
   const removeFromCart = (cartItem) => {
-    if (window.confirm('Are you sure you want to remove')) {
-        const newCart = cart.filter((item) => item.id !== cartItem.id);
-        toast('移除商品成功!', {
-          icon: '🛒',
-        });
-        updateCart(newCart);
+    if (window.confirm('要刪除此商品?')) {
+      if (session?.user) {
+        removeFromDatabase(cartItem);
+      } else {
+        removeFromLocalCart(cartItem);
+      }
     }
-};
+  };
+  
+  // 從資料庫中刪除商品
+  const removeFromDatabase = async (cartItem) => {
+    try {
+      const newCart = cart.filter((item) => item.id !== cartItem.id);
+      await updateCart(newCart);
+      toast('移除商品成功!', {
+        icon: '🛍️',
+      });
+    } catch (error) {
+      console.error('刪除商品時出錯：', error);
+      toast.error('刪除商品失敗!');
+    }
+  };
+  
+  // 從本地購物車中刪除商品
+  const removeFromLocalCart = (cartItem) => {
+    const newLocalCart = localCart.filter((item) => item.id !== cartItem.id);
+    setLocalCart(newLocalCart);
+    localStorage.setItem('cart', JSON.stringify(newLocalCart));
+    toast('移除商品成功!', {
+      icon: '🛍️',
+    });
+  };
 
-  const subtotal = calcSubtotal(cart);
-
-  //CHECKOUT
+  /* CHECKOUT */
   const handleCheckout = async () => {
+    if (!session) {
+      toast.error("請先登入");
+      return;
+    }
+  
     const stripe = await getStripe()
 
     const response = await fetch("/api/stripe", {
@@ -93,7 +199,12 @@ const Cart = () => {
     }
   }
 
-  const handleLine = async () => {
+  const handleLinPay = async () => {
+    if (!session) {
+      toast.error("請先登入");
+      return;
+    }
+
     try {
       const response = await fetch("/api/line", {
         method: "POST",
@@ -123,22 +234,26 @@ const Cart = () => {
     }
   };
 
-  return !session?.user?.cart ? <Loader /> : (
+  return (
     <>
-      <div className="cart">
+      <div id="cart" className="cart">
         <div className="details">
           <div className="top">
-            <h1>購物籃</h1>
+            <div className="top-cart-tittle">
+              <p><LocalMallOutlined /></p>
+              <h1>購物清單</h1>
+            </div>
+
             <h2>
-              合計: <span>${subtotal}</span>
+              合計: <span id="subtotal">$ {subtotal}</span>
             </h2>
           </div>
 
-          {cart?.length === 0 && <h4>Empty Cart</h4>}
+          {mergedCart?.length === 0 && <h4>Empty Cart</h4>}
 
-          {cart?.length > 0 && (
+          {mergedCart?.length > 0 && (
             <div className="all-items">
-              {cart?.map((item, index) => (
+              {mergedCart?.map((item, index) => (
                 <div className="item" key={index}>
                   <div className="item_info">
                     <img src={item.image} alt="product" />
@@ -156,7 +271,7 @@ const Cart = () => {
                         sx={{ fontSize: "18px", color: "grey", cursor: "pointer", }}
                         className="calculate-hover"
                       />
-                      <h3>{item.quantity}</h3>
+                      <h3 id={`quantity-number-${item.id}`}>{item.quantity}</h3>
                       <RemoveCircle
                         onClick={() => decreaseQty(item)}
                         sx={{ fontSize: "18px", color: "grey", cursor: "pointer", }}
@@ -165,7 +280,7 @@ const Cart = () => {
                     </div>
 
                     <div className="price">
-                      <h2>${item.quantity * item.price}</h2>
+                      <h2 id={`price-number-${item.id}`}>$ {item.quantity * item.price}</h2>
                       <p>${item.price} / each</p>
                     </div>
 
@@ -193,7 +308,7 @@ const Cart = () => {
                   <Button
                     variant="outlined"
                     color="success"
-                    onClick={handleLine} 
+                    onClick={handleLinPay} 
                   >
                     <img src="/assets/line-pay.svg" width={60}/>
                   </Button>

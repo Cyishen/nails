@@ -1,9 +1,9 @@
 "use client";
 
-import { Search, Person, ShoppingCart } from "@mui/icons-material";
+import { Search, Person, LocalMallOutlined } from "@mui/icons-material";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { IconButton } from '@mui/material'
 import Image from 'next/image'
@@ -14,7 +14,6 @@ const Navbar = () => {
   const cart = user?.cart
 
   const router = useRouter();
-  const pathname = usePathname();
 
   const [search, setSearch] = useState("");
   const [dropdownMenu, setDropdownMenu] = useState(false);
@@ -50,33 +49,12 @@ const Navbar = () => {
     signOut({ callbackUrl: "/" });
   };
 
-
-
   return (
     <div className={`navbar ${isScrolled ? "bg-black-1 text-white transition-colors duration-300" : ""}`}>
       <div className="navbar-container">
         <Link href="/">
           <h1 className="text-heading1-bold">Nails</h1>
         </Link>
-
-        {/* <div className="nav-links">
-          <Link 
-            href="/"
-            className={`${
-              pathname === "/" ? "text-pink-1" : ""
-            } nav-link`} 
-          >
-            首頁
-          </Link>
-          <Link 
-            href="/my-shop" 
-            className={`${
-              pathname === "/my-shop" ? "text-pink-1" : ""
-            } nav-link`} 
-          >
-            MyShop
-          </Link>
-        </div> */}
 
         <div className="nav-right">
           <div className="search">
@@ -100,9 +78,10 @@ const Navbar = () => {
             </IconButton>
           </div>
 
-          <Link href={!user ? "/login" : "/cart"} className="">
-            <ShoppingCart />
-            購物籃 <span>({cart?.length})</span>
+          <Link href={"/cart"} className="shopping-bag">
+            <LocalMallOutlined />
+            <p>購物</p>
+            {user && <p>({cart?.length})</p> }
           </Link>
           
           <button  
@@ -128,7 +107,7 @@ const Navbar = () => {
             <div className='dropdown-menu'>
               <Link href="/profile">個人頁面</Link>
               <Link href="/favorite">收藏</Link>
-              <Link href="/cart">購物籃<span>({cart?.length})</span></Link>
+              <Link href="/cart">購物<span>({cart?.length})</span></Link>
               <Link href="/order">已購買</Link>
               <hr />
               <Link href="/works/create">建立作品</Link>
