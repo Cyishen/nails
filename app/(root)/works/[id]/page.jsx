@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from 'react'
 import { ArrowForwardIos, Edit, FavoriteBorder, LocalMallOutlined, Favorite } from "@mui/icons-material";
-import { ArrowForwardIos, Edit, FavoriteBorder, LocalMallOutlined, Favorite } from "@mui/icons-material";
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 
@@ -62,7 +61,7 @@ const WorkDetails = ( { params } ) => {
     }
   };
 
-  /* ADD TO WISHLIST */
+  /* ADD TO FAVORITE */
   const favorites = session?.user?.favorites;
   const isLiked = favorites?.find((item) => item?._id === work._id);
 
@@ -79,6 +78,9 @@ const WorkDetails = ( { params } ) => {
   };
 
   /* ADD TO CART */
+  const cart = session?.user?.cart;
+  const isInCart = cart?.find((item) => item?.id === id);
+
   const addToCart = async () => {
     const newCartItem = {
       id,
@@ -102,12 +104,12 @@ const WorkDetails = ( { params } ) => {
           body: JSON.stringify({ cart: newCart }),
         });
         update({ user: { cart: newCart } });
-        toast.success(' 🛒 已加入商品!')
+        toast.success('🛍️ 已加入商品!')
       } catch (err) {
         console.log(err);
       }
     } else {
-      toast.error('This item is already in your cart!')
+      toast.error('🛍️ 商品已加入!')
       return;
     }
   };

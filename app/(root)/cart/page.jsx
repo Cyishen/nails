@@ -1,6 +1,6 @@
 "use client";
 
-import { AddCircle, ArrowCircleLeft, Delete, RemoveCircle,  ContactlessOutlined, LocalMallOutlined, LocalMallOutlined } from "@mui/icons-material";
+import { AddCircle, ArrowCircleLeft, Delete, RemoveCircle, ContactlessOutlined, LocalMallOutlined } from "@mui/icons-material";
 import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
 import { useSession } from "next-auth/react";
@@ -13,26 +13,7 @@ const Cart = () => {
   const { data: session, update } = useSession();
   const cart = session?.user?.cart;
   const userId = session?.user?._id;
-  const [localCart, setLocalCart] = useState([]);
 
-  // 在頁面加載時從本地存儲中獲取購物車數據
-  useEffect(() => {
-    const localCartData = JSON.parse(localStorage.getItem('cart')) || [];
-    setLocalCart(localCartData);
-  }, []);
-
-  // 在用戶登入後更新用戶的購物車數據
-  useEffect(() => {
-    if (userId && localCart.length > 0) {
-      updateCart(mergedCart);
-      // 更新用戶購物車後清空本地購物車數據
-      setLocalCart([]);
-      localStorage.removeItem('cart');
-    }
-  }, [userId, localCart]);
-
-  // 將本地購物車數據與用戶登錄後的購物車數據合併
-  const mergedCart = [...localCart, ...(session?.user?.cart || [])];
 
   const updateCart = async (cart) => {
     try {
@@ -51,7 +32,6 @@ const Cart = () => {
   };
 
   /* 計算 */
-  /* 計算 */
   const calcSubtotal = (cart) => {
     return cart?.reduce((total, item) => {
       return total + item.quantity * item.price;
@@ -61,62 +41,36 @@ const Cart = () => {
   const subtotal = calcSubtotal(cart);
 
   const increaseQty = (cartItem) => {
-    if (session) {
-      const newCart = cart?.map((item) => {
-        if (item === cartItem) {
-          item.quantity += 1;
-        }
+    const newCart = cart?.map((item) => {
+      if (item === cartItem) {
+        item.quantity += 1;
         return item;
-      });
-      updateCart(newCart);
-    } else {
-      const localCart = JSON.parse(localStorage.getItem('cart')) || [];
-      const newLocalCart = localCart.map((item) => {
-        if (item.id === cartItem.id) {
-          item.quantity += 1;
-        }
-        return item;
-      });
-      localStorage.setItem('cart', JSON.stringify(newLocalCart));
-      updateUI(newLocalCart)
-    }
+      } else return item;
+    });
+    updateCart(newCart);
   };
 
   const decreaseQty = (cartItem) => {
-    if (session) {
-      const newCart = cart?.map((item) => {
-        if (item === cartItem && item.quantity > 1) {
-          item.quantity -= 1;
-          return item;
-        } else return item;
-      });
-      updateCart(newCart);
-    } else {
-      const localCart = JSON.parse(localStorage.getItem('cart')) || [];
-      const newLocalCart = localCart.map((item) => {
-        if (item.id === cartItem.id && item.quantity > 1) {
-          item.quantity -= 1;
-        }
+    const newCart = cart?.map((item) => {
+      if (item === cartItem && item.quantity > 1) {
+        item.quantity -= 1;
         return item;
-      });
-      localStorage.setItem('cart', JSON.stringify(newLocalCart));
-      updateUI(newLocalCart)
-    }
+      } else return item;
+    });
+    updateCart(newCart);
   };
 
   const removeFromCart = (cartItem) => {
     if (window.confirm('Are you sure you want to remove')) {
         const newCart = cart.filter((item) => item.id !== cartItem.id);
         toast('移除商品成功!', {
-          icon: '🛒',
+          icon: '🛍️',
         });
         updateCart(newCart);
     }
 };
 
-  const subtotal = calcSubtotal(cart);
-
-  //CHECKOUT
+  /* CHECKOUT */
   const handleCheckout = async () => {
     if (!session) {
       toast.error("請先登入");
@@ -149,7 +103,7 @@ const Cart = () => {
     }
   }
 
-  const handleLine = async () => {
+  const handleLinePay = async () => {
     try {
       const response = await fetch("/api/line", {
         method: "POST",
@@ -184,17 +138,21 @@ const Cart = () => {
       <div id="cart" className="cart">
         <div className="details">
           <div className="top">
-            <h1>購物籃</h1>
+            <div className="top-cart-tittle">
+              <p><LocalMallOutlined /></p>
+              <h1>購物籃</h1>
+            </div>
+
             <h2>
-              合計: <span id="subtotal">$ {subtotal}</span>
+              合計: <span>$ {subtotal}</span>
             </h2>
           </div>
 
-          {mergedCart?.length === 0 && <h4>Empty Cart</h4>}
+          {cart?.length === 0 && <h4>Empty Cart</h4>}
 
-          {mergedCart?.length > 0 && (
+          {cart?.length > 0 && (
             <div className="all-items">
-              {mergedCart?.map((item, index) => (
+              {cart?.map((item, index) => (
                 <div className="item" key={index}>
                   <div className="item_info">
                     <img src={item.image} alt="product" />
@@ -221,7 +179,7 @@ const Cart = () => {
                     </div>
 
                     <div className="price">
-                      <h2 id={`price-number-${item.id}`}>$ {item.quantity * item.price}</h2>
+                      <h2>$ {item.quantity * item.price}</h2>
                       <p>${item.price} / each</p>
                     </div>
 
@@ -249,7 +207,7 @@ const Cart = () => {
                   <Button
                     variant="outlined"
                     color="success"
-                    onClick={handleLine} 
+                    onClick={handleLinePay} 
                   >
                     <img src="/assets/line-pay.svg" width={60}/>
                   </Button>
