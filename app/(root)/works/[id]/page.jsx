@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useEffect, useState } from 'react'
-import { ArrowForwardIos, Edit, FavoriteBorder, ShoppingCart, Favorite } from "@mui/icons-material";
+import { ArrowForwardIos, Edit, FavoriteBorder, LocalMallOutlined, Favorite } from "@mui/icons-material";
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 
@@ -67,7 +67,7 @@ const WorkDetails = ( { params } ) => {
 
   const patchLike = async () => {
     if (!userId) {
-      confirm('Login to add you like')
+      toast.error('先登入~加入妳的喜愛 ❤️')
       return;
     }
     const response = await fetch(`api/users/${userId}/favorite/${work._id}`, {
@@ -104,12 +104,12 @@ const WorkDetails = ( { params } ) => {
           body: JSON.stringify({ cart: newCart }),
         });
         update({ user: { cart: newCart } });
-        toast.success(' 🛒 已加入商品!')
+        toast.success('🛍️ 已加入商品!')
       } catch (err) {
         console.log(err);
       }
     } else {
-      toast.error('This item is already in your cart!')
+      toast.error('🛍️ 商品已經在購物籃')
       return;
     }
   };
@@ -232,12 +232,12 @@ const WorkDetails = ( { params } ) => {
           <h1 className="price">${work.price}</h1>
           <Button 
             variant="outlined" 
-            endIcon={<ShoppingCart />} 
+            endIcon={<LocalMallOutlined />} 
             type="submit"
             onClick={addToCart} 
-            disabled={!userId}
+            // disabled={!userId}
           >
-            加入購物籃
+            加入商品
           </Button>
         </div>
       </div>

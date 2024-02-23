@@ -81,6 +81,10 @@ h3 {
   @apply flex gap-3 sm:gap-8 items-center relative;
 }
 
+.shopping-bag {
+  @apply flex
+}
+
 .login {
   @apply flex items-center font-medium 
 }

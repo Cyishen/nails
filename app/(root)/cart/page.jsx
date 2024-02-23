@@ -1,10 +1,9 @@
 "use client";
 
-import { AddCircle, ArrowCircleLeft, Delete, RemoveCircle,ContactlessOutlined } from "@mui/icons-material";
+import { AddCircle, ArrowCircleLeft, Delete, RemoveCircle, ContactlessOutlined, LocalMallOutlined } from "@mui/icons-material";
 import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
 import { useSession } from "next-auth/react";
-import Loader from "@components/Loader";
 import "@styles/Cart.scss";
 import getStripe from "@lib/getStripe";
 import toast from "react-hot-toast";
@@ -15,23 +14,29 @@ const Cart = () => {
   const userId = session?.user?._id;
 
   const updateCart = async (cart) => {
-    const response = await fetch(`/api/users/${userId}/cart`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ cart }),
-    });
-    const data = await response.json();
-    update({ user: { cart: data } });
+    try {
+      const response = await fetch(`/api/users/${userId}/cart`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ cart }),
+      });
+      const data = await response.json();
+      update({ user: { cart: data } });
+    } catch (err) {
+      console.error('更新購物數據時出錯：', err);
+    }
   };
 
-  //CALC ALL ITEMS
+  /* 計算 */
   const calcSubtotal = (cart) => {
     return cart?.reduce((total, item) => {
       return total + item.quantity * item.price;
     }, 0);
   };
+
+  const subtotal = calcSubtotal(cart);
 
   const increaseQty = (cartItem) => {
     const newCart = cart?.map((item) => {
@@ -53,19 +58,17 @@ const Cart = () => {
     updateCart(newCart);
   };
 
-  const removeFromCart = (cartItem) => {
+  const removeFromCart = async (cartItem) => {
     if (window.confirm('Are you sure you want to remove')) {
-        const newCart = cart.filter((item) => item.id !== cartItem.id);
-        toast('移除商品成功!', {
-          icon: '🛒',
-        });
-        updateCart(newCart);
+      const newCart = cart.filter((item) => item.workId !== cartItem.workId);
+      await updateCart(newCart);
+      toast('移除商品成功!', {
+        icon: '🛍️',
+      });
     }
-};
+  };
 
-  const subtotal = calcSubtotal(cart);
-
-  //CHECKOUT
+  /* CHECKOUT */
   const handleCheckout = async () => {
     const stripe = await getStripe()
 
@@ -93,7 +96,7 @@ const Cart = () => {
     }
   }
 
-  const handleLine = async () => {
+  const handleLinePay = async () => {
     try {
       const response = await fetch("/api/line", {
         method: "POST",
@@ -123,12 +126,16 @@ const Cart = () => {
     }
   };
 
-  return !session?.user?.cart ? <Loader /> : (
+  return (
     <>
-      <div className="cart">
+      <div id="cart" className="cart">
         <div className="details">
           <div className="top">
-            <h1>購物籃</h1>
+            <div className="top-cart-tittle">
+              <p><LocalMallOutlined /></p>
+              <h1>購物籃</h1>
+            </div>
+
             <h2>
               合計: <span>${subtotal}</span>
             </h2>
@@ -156,7 +163,7 @@ const Cart = () => {
                         sx={{ fontSize: "18px", color: "grey", cursor: "pointer", }}
                         className="calculate-hover"
                       />
-                      <h3>{item.quantity}</h3>
+                      <h3 id={`quantity-${item.id}`}>{item.quantity}</h3>
                       <RemoveCircle
                         onClick={() => decreaseQty(item)}
                         sx={{ fontSize: "18px", color: "grey", cursor: "pointer", }}
@@ -193,7 +200,7 @@ const Cart = () => {
                   <Button
                     variant="outlined"
                     color="success"
-                    onClick={handleLine} 
+                    onClick={handleLinePay} 
                   >
                     <img src="/assets/line-pay.svg" width={60}/>
                   </Button>
