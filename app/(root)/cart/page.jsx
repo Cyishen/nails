@@ -7,13 +7,19 @@ import { useSession } from "next-auth/react";
 import "@styles/Cart.scss";
 import getStripe from "@lib/getStripe";
 import toast from "react-hot-toast";
-
+import { useCartStore } from '@lib/store';
+import { useEffect } from "react";
 
 const Cart = () => {
   const { data: session, update } = useSession();
-  const cart = session?.user?.cart;
   const userId = session?.user?._id;
 
+  const { products, totalPrice, increaseQty, decreaseQty, removeFromCartStore } = useCartStore();
+  const cart = userId ? session?.user?.cart : products;
+  console.log('無用戶登入時添加的商品A:',products)
+  useEffect(() => {
+    useCartStore.persist.rehydrate()
+  },[session, products])
 
   const updateCart = async (cart) => {
     try {
@@ -26,10 +32,38 @@ const Cart = () => {
       });
       const data = await response.json();
       update({ user: { cart: data } });
+
     } catch (err) {
       console.error('更新購物數據時出錯：', err);
     }
   };
+
+  useEffect(() => {
+    if (userId && products.length > 0) {
+      const mergedCart = mergeCarts(cart, products);
+      updateCart(mergedCart);
+
+      useCartStore.setState({
+        products: [],
+        totalItems: 0,
+        totalPrice: 0,
+      });
+    }
+  }, [userId, products]);
+
+  const mergeCarts = (oldCart, newCart) => {
+    const mergedCart = [...oldCart];
+  
+    newCart.forEach(newItem => {
+      const existingItemIndex = mergedCart.findIndex(oldItem => oldItem.id === newItem.id);
+      if (existingItemIndex !== -1) {
+        return;
+      }
+      mergedCart.push(newItem);
+    });
+  
+    return mergedCart;
+  }
 
   /* 計算 */
   const calcSubtotal = (cart) => {
@@ -40,7 +74,16 @@ const Cart = () => {
 
   const subtotal = calcSubtotal(cart);
 
-  const increaseQty = (cartItem) => {
+  /* 加減 */
+  const increaseQtySelect = (cartItem) => {
+    if (userId) {
+      increaseQtyDB(cartItem);
+    } else {
+      increaseQty(cartItem);
+    }
+  }
+
+  const increaseQtyDB = (cartItem) => {
     const newCart = cart?.map((item) => {
       if (item === cartItem) {
         item.quantity += 1;
@@ -50,7 +93,15 @@ const Cart = () => {
     updateCart(newCart);
   };
 
-  const decreaseQty = (cartItem) => {
+  const decreaseQtySelect = (cartItem) => {
+    if (userId) {
+      decreaseQtyDB(cartItem);
+    } else {
+      decreaseQty(cartItem);
+    }
+  }
+
+  const decreaseQtyDB= (cartItem) => {
     const newCart = cart?.map((item) => {
       if (item === cartItem && item.quantity > 1) {
         item.quantity -= 1;
@@ -60,15 +111,23 @@ const Cart = () => {
     updateCart(newCart);
   };
 
-  const removeFromCart = (cartItem) => {
-    if (window.confirm('Are you sure you want to remove')) {
+  const removeSelect = (cartItem) => {
+    if (userId) {
+      removeFromDB(cartItem);
+    } else {
+      removeFromCartStore(cartItem);
+    }
+  };
+
+  const removeFromDB = (cartItem) => {
+    if (window.confirm('移除此商品 🛍️？')) {
         const newCart = cart.filter((item) => item.id !== cartItem.id);
         toast('移除商品成功!', {
           icon: '🛍️',
         });
         updateCart(newCart);
     }
-};
+  };
 
   /* CHECKOUT */
   const handleCheckout = async () => {
@@ -104,6 +163,10 @@ const Cart = () => {
   }
 
   const handleLinePay = async () => {
+    if (!session) {
+      toast.error("請先登入");
+      return;
+    }
     try {
       const response = await fetch("/api/line", {
         method: "POST",
@@ -144,7 +207,7 @@ const Cart = () => {
             </div>
 
             <h2>
-              合計: <span>$ {subtotal}</span>
+              合計: <span>{ userId ? subtotal : totalPrice }</span>
             </h2>
           </div>
 
@@ -159,28 +222,28 @@ const Cart = () => {
                     <div className="text">
                       <h3>{item.title}</h3>
                       <p>類別: {item.category}</p>
-                      <p>設計師: {item.creator.username}</p>
+                      <p>設計師: {item.creator?.username}</p>
                     </div>
                   </div>
 
                   <div className="item-cost">
                     <div className="quantity">
                       <AddCircle
-                        onClick={() => increaseQty(item)}
+                        onClick={() => increaseQtySelect(item)}
                         sx={{ fontSize: "18px", color: "grey", cursor: "pointer", }}
                         className="calculate-hover"
                       />
                       <h3>{item.quantity}</h3>
                       <RemoveCircle
-                        onClick={() => decreaseQty(item)}
+                        onClick={() => decreaseQtySelect(item)} 
                         sx={{ fontSize: "18px", color: "grey", cursor: "pointer", }}
                         className="calculate-hover"
                       />
                     </div>
 
                     <div className="price">
-                      <h2>$ {item.quantity * item.price}</h2>
-                      <p>${item.price} / each</p>
+                        <h2>$ {item.price * item.quantity}</h2>
+                        <p>${item.price} / each</p>
                     </div>
 
                     <div className="remove">
@@ -189,7 +252,7 @@ const Cart = () => {
                       aria-label="remove"
                       size="small"
                       color="error"  
-                      onClick={() => removeFromCart(item)}
+                      onClick={() => removeSelect(item)}
                       >
                         <Delete sx={{ color: 'red' }}/>
                       </IconButton>

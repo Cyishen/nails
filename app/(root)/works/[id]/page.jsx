@@ -11,6 +11,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import toast from "react-hot-toast";
 import "@styles/WorkDetails.scss";
+import { useCartStore } from '@lib/store';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, EffectFade, Autoplay, Navigation, Thumbs, FreeMode } from 'swiper/modules';
@@ -30,6 +31,8 @@ const WorkDetails = ( { params } ) => {
   const userId = session?.user?._id;
 
   const { id } = params;
+
+  const { addToCartStore } = useCartStore();
 
   useEffect(() => {
     const getWorkDetails = async () => {
@@ -78,23 +81,40 @@ const WorkDetails = ( { params } ) => {
   };
 
   /* ADD TO CART */
-  const cart = session?.user?.cart;
-  const isInCart = cart?.find((item) => item?.id === id);
-
   const addToCart = async () => {
-    const newCartItem = {
-      id,
-      image: work.workPhotos[0],
-      title: work.title,
-      category: work.category,
-      creator: work.creator,
-      price: work.price,
-      quantity: 1,
-    };
+    if (!session) {
+      const newCartItem = {
+        id,
+        image: work.workPhotos[0],
+        title: work.title,
+        category: work.category,
+        creator: work.creator,
+        price: work.price,
+        quantity: 1,
+      };
+      addToCartStore(newCartItem);
+      
+      toast.success('🛍️ 已加入商品!');
+      return;
+    }
 
+  
+    const cart = session?.user?.cart;
+    const isInCart = cart?.find((item) => item.id === id);
+  
     if (!isInCart) {
+      const newCartItem = {
+        id,
+        image: work.workPhotos[0],
+        title: work.title,
+        category: work.category,
+        creator: work.creator,
+        price: work.price,
+        quantity: 1,
+      };
+  
       const newCart = [...cart, newCartItem];
-
+  
       try {
         await fetch(`/api/users/${userId}/cart`, {
           method: "POST",
@@ -104,12 +124,12 @@ const WorkDetails = ( { params } ) => {
           body: JSON.stringify({ cart: newCart }),
         });
         update({ user: { cart: newCart } });
-        toast.success('🛍️ 已加入商品!')
+        toast.success('🛍️ 已加入商品!');
       } catch (err) {
         console.log(err);
       }
     } else {
-      toast.error('🛍️ 商品已加入!')
+      toast.error('🛍️ 商品已加入!');
       return;
     }
   };
@@ -235,7 +255,6 @@ const WorkDetails = ( { params } ) => {
             endIcon={<LocalMallOutlined />} 
             type="submit"
             onClick={addToCart} 
-            // disabled={!userId}
           >
             加入商品
           </Button>

@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { IconButton } from '@mui/material'
 import Image from 'next/image'
+import { useCartStore } from '@lib/store';
 
 const Navbar = () => {
   const { data: session } = useSession();
@@ -19,6 +20,10 @@ const Navbar = () => {
   const [dropdownMenu, setDropdownMenu] = useState(false);
 
   const [isScrolled, setIsScrolled] = useState(false);
+  const { totalItems } = useCartStore();
+  useEffect(() => {
+    useCartStore.persist.rehydrate()
+  },[])
 
   const handleScroll = () => {
     if (window.scrollY > 10) {
@@ -81,7 +86,7 @@ const Navbar = () => {
           <Link href={"/cart"} className="shopping-bag">
             <LocalMallOutlined />
             <p>購物</p>
-            {user && <p>({cart?.length})</p> }
+            {user ? <p>({cart?.length})</p> : <p>({totalItems})</p>}
           </Link>
           
           <button  

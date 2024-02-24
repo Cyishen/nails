@@ -31,7 +31,8 @@
     "sass": "^1.70.0",
     "stripe": "^14.17.0",
     "swiper": "^11.0.6",
-    "uuid4": "^2.0.3"
+    "uuid4": "^2.0.3",
+    "zustand": "^4.5.1"
   },
   "devDependencies": {
     "autoprefixer": "^10.0.1",
