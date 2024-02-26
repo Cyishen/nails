@@ -11,7 +11,12 @@ export const GET = async (req, { params }) => {
     if (category !== "全部") {
       workList = await Work.find ({ category }).populate("creator").sort({ _id: -1 })
     } else {
-      workList = await Work.find().populate("creator").sort({ _id: -1 })
+      workList = await Work.find()
+        .populate({
+          path: "creator",
+          select: "_id username profileImage"
+        })
+        .sort({ _id: -1 });
     }
     // console.log("Work List:", workList);
 
