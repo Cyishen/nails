@@ -15,14 +15,14 @@ const Feed = () => {
 
   const [workList, setWorkList] = useState([]);
 
-  const getWorkList = async () => {
-    const response = await fetch(`/api/work/list/${selectedCategory}`);
-    const data = await response.json();
-    setWorkList(data);
-    setLoading(false);
-  };
-
   useEffect(() => {
+    const getWorkList = async () => {
+      const response = await fetch(`/api/work/list/${selectedCategory}`);
+      const data = await response.json();
+      setWorkList(data);
+      setLoading(false);
+    };
+
     getWorkList();
   }, [selectedCategory]);
 
