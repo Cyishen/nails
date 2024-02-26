@@ -65,7 +65,9 @@ const AuthForm = ({ type }) => {
     <div className="auth">
       <div className="overlay">
         <div className="content">
-          <h1 className="text-heading1-bold">Nails</h1>
+            <Link href="/">
+              <h1 className="text-heading1-bold">Nails</h1>
+            </Link>
 
           <form className="form" onSubmit={handleSubmit(onSubmit)}>
             {type === "register" && (

@@ -16,7 +16,7 @@ const Cart = () => {
 
   const { products, totalPrice, increaseQty, decreaseQty, removeFromCartStore } = useCartStore();
   const cart = userId ? session?.user?.cart : products;
-  console.log('無用戶登入時添加的商品A:',products)
+  // console.log('無用戶登入時添加的商品A:',products)
   useEffect(() => {
     useCartStore.persist.rehydrate()
   },[session, products])

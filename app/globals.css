@@ -21,7 +21,7 @@ h3 {
 
 /* Login & Register Pages */
 .auth {
-  @apply w-full flex items-center justify-center;
+  @apply w-full flex items-center justify-center py-10;
 }
 
 .overlay {
@@ -37,7 +37,7 @@ h3 {
 }
 
 .input {
-  @apply w-full flex items-center justify-between px-5 py-3 border rounded-xl shadow-xl h-12;
+  @apply w-full flex items-center justify-between px-5 py-3 border rounded-xl shadow-md h-12;
 }
 
 .input-field {
