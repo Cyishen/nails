@@ -16,7 +16,7 @@ export const GET = async (req, { params }) => {
           path: "creator",
           select: "_id username profileImage"
         })
-        .sort({ _id: -1 });
+        .sort({ _id: -1 })
     }
     // console.log("Work List:", workList);
 
