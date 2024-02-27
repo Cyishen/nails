@@ -7,7 +7,7 @@ ul {
 }
 
 .data-none {
-  @apply min-h-[200px] w-full flex flex-col gap-3 rounded-[14px] py-28 text-center bg-bg-1
+  @apply min-h-[200px] w-full flex flex-col mx-auto gap-3 rounded-[14px] py-28 text-center bg-bg-1 mt-5
 }
 
 h4 {

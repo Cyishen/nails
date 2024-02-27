@@ -106,18 +106,18 @@ h3 {
 }
 
 .search {
-  @apply hidden sm:block justify-between items-center gap-2 px-4 border rounded-full;
+  @apply hidden sm:block justify-between items-center gap-2 px-4 border rounded-lg;
 }
 
 .input-search {
   @apply w-40 bg-transparent outline-none text-body-medium;
 }
 
-.search-box {
-  @apply sm:hidden w-full flex justify-between items-center gap-2 px-4 border rounded-full;
+.search-mobile {
+  @apply sm:hidden w-full flex justify-between items-center gap-2 px-4 border rounded-lg;
 }
 
-.input-search-box {
+.input-search-mobile {
   @apply w-full bg-transparent outline-none text-body-medium;
 }
 

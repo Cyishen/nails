@@ -5,15 +5,15 @@ import { IconButton } from '@mui/material'
 import { Search } from "@mui/icons-material";
 import { useRouter } from 'next/navigation';
 
-const SearchBox = () => {
+const SearchMobile = () => {
   const [search, setSearch] = useState("");
   const router = useRouter();
 
   return (
-    <div className="search-box">
+    <div className="search-mobile">
       <input
         placeholder="Search"
-        className="input-search-box"
+        className="input-search-mobile"
         value={search}
         onChange={(e) => setSearch(e.target.value)}
       />
@@ -33,4 +33,4 @@ const SearchBox = () => {
   )
 }
 
-export default SearchBox
+export default SearchMobile

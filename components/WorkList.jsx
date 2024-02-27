@@ -18,9 +18,11 @@ const WorkList = ({ data }) => {
           </ul>
         </div>
       ) : (
-        <div className="wrapper data-none">
-          <h4>No Design Found.</h4>
-          <p>Come back later.</p>
+        <div className="wrapper">
+          <div className="data-none">
+            <h4>No Design Found.</h4>
+            <p>Come back later.</p>
+          </div>
         </div>
       )} 
     </>

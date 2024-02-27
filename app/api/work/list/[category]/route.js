@@ -9,7 +9,13 @@ export const GET = async (req, { params }) => {
     let workList
 
     if (category !== "全部") {
-      workList = await Work.find ({ category }).populate("creator").sort({ _id: -1 })
+      workList = await Work.find ({ category })
+        .populate({
+          path: "creator",
+          select: "_id username profileImage"
+        })
+        .sort({ _id: -1 })
+        .slice("workPhotos", [0, 1])
     } else {
       workList = await Work.find()
         .populate({
@@ -17,6 +23,7 @@ export const GET = async (req, { params }) => {
           select: "_id username profileImage"
         })
         .sort({ _id: -1 })
+        .slice("workPhotos", [0, 1])
     }
     // console.log("Work List:", workList);
 

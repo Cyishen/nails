@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 import WorkList from "./WorkList";
 import Loader from "./Loader";
-import SearchBox from "./Search";
+import SearchMobile from "./SearchMobile";
 
 
 const Feed = () => {
@@ -42,7 +42,7 @@ const Feed = () => {
       </div>
 
       <div className="px-5"> 
-        <SearchBox />
+        <SearchMobile />
       </div>
 
       {loading ? (
