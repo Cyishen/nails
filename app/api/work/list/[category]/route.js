@@ -8,7 +8,7 @@ export const GET = async (req, { params }) => {
 
     let workList
 
-    if (category !== "全部") {
+    if (category !== "All") {
       workList = await Work.find ({ category })
         .populate({
           path: "creator",

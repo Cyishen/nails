@@ -19,7 +19,7 @@ const Shop = ( { params } ) => {
   const [profile, setProfile] = useState({});
 
   useEffect(() => {
-    const getWorkList = async () => {
+    const getShopWorkList = async () => {
       const response = await fetch(`/api/users/${id}/shop`, {
         method: "GET",
         headers: {
@@ -32,7 +32,7 @@ const Shop = ( { params } ) => {
     };
 
     if (id) {
-      getWorkList();
+      getShopWorkList();
     }
   }, [id]);
 

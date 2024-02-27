@@ -11,7 +11,7 @@ import SearchMobile from "./SearchMobile";
 const Feed = () => {
   const [loading, setLoading] = useState(true);
 
-  const [selectedCategory, setSelectedCategory] = useState("全部");
+  const [selectedCategory, setSelectedCategory] = useState("All");
 
   const [workList, setWorkList] = useState([]);
 

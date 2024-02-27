@@ -1,5 +1,5 @@
 export const categories = [
-  "全部",
+  "All",
   "簡約",
   "法式",
   "長甲",
