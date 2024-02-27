@@ -71,14 +71,14 @@ const WorkCard = ({ work }) => {
 
         <div className="creator">
           <div className="creator-img">
-            <Link href={`/shop/${work.creator?._id}`}>
+            <div>
               <Image 
                 src={work.creator?.profileImage || "/assets/person.jpg"} 
                 alt="creator"
                 width={50}
                 height={50}
               />
-            </Link>
+            </div>
           </div>
           
           <div className="creator-name">
