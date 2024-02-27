@@ -18,8 +18,14 @@ const Feed = () => {
   useEffect(() => {
     const getWorkList = async () => {
       const encodedCategory = encodeURIComponent(selectedCategory);
-      const response = await fetch(`/api/work/list/${encodedCategory}`);
+      const response = await fetch(`/api/work/list/${encodedCategory}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       const data = await response.json();
+
       setWorkList(data);
       setLoading(false);
     };
