@@ -38,7 +38,7 @@ const SearchPage = () => {
       <h1 className='title-list'>Search: '{decodedQuery}' </h1>
 
       {workList.length > 0 ? (
-        <WorkList data={workList} />
+        <WorkList data={workList} hideCategories={true} />
       ) : (
         <div className='search-empty'>
           <h4>No Results Found.</h4>

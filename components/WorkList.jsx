@@ -1,20 +1,45 @@
-import React from 'react'
+'use client'
+
+import React, { useState } from 'react'
 import WorkCard from './WorkCard'
 import "@styles/WorkList.css"
+import { categories } from '@data'
 
-const WorkList = ({ data }) => {
+const WorkList = ({ data, hideCategories }) => {
+  const [selectedCategory, setSelectedCategory] = useState("All");
+
   return (
     <>
-      {data.length > 0 ? (
+      {!hideCategories && (
+        <div className="wrapper sticky top-[72px] flex flex-wrap gap-1 sm:gap-8 sm:mb-8 justify-center z-10 bg-white backdrop-blur-md opacity-80">
+          {categories?.map((item, index) => (
+            <p
+              onClick={() => setSelectedCategory(item)}
+              className={`${item === selectedCategory ? "selected" : "text-base-light sm:font-normal"} sm:text-heading4-bold p-2 cursor-pointer hover:bg-bg-1 rounded-lg border`}
+              key={index}
+            >
+              {item}
+            </p>
+          ))}
+        </div>
+      )}
+
+      {data?.length > 0 ? (
         <div className="work-list">
           <ul>
-            {data.map((work) => {
-              return (
+            {selectedCategory === "All" ? (
+                data?.map((work) => (
+                  <li key={work._id}>
+                    <WorkCard work={work} />
+                  </li>
+                ))
+            ) : (
+              data?.filter((work) => work.category === selectedCategory)?.map((work) => (
                 <li key={work._id}>
                   <WorkCard work={work} />
                 </li>
-              )
-            })}
+              ))
+            )}
           </ul>
         </div>
       ) : (
