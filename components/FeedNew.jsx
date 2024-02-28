@@ -1,10 +1,8 @@
 import { getWorkList } from '@database/actions/work.action'
-import React from 'react'
 import WorkList from './WorkList'
 import SearchMobile from './SearchMobile'
 
 const FeedNew = async ({}) => {
-
   const workList = await getWorkList({})
 
   return (

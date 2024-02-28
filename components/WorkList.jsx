@@ -1,12 +1,19 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import WorkCard from './WorkCard'
 import "@styles/WorkList.css"
 import { categories } from '@data'
 
 const WorkList = ({ data, hideCategories }) => {
   const [selectedCategory, setSelectedCategory] = useState("All");
+  // console.log('資料？',data?.length)
+
+  useEffect(() => {
+    if (data?.length === undefined) {
+      window.location.reload()
+    }
+  }, [])
 
   return (
     <>
