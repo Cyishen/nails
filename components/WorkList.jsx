@@ -9,11 +9,11 @@ const WorkList = ({ data, hideCategories }) => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   // console.log('資料？',data?.length)
 
-  useEffect(() => {
-    if (data?.length === undefined) {
-      window.location.reload()
-    }
-  }, [])
+  // useEffect(() => {
+  //   if (data?.length === undefined) {
+  //     window.location.reload()
+  //   }
+  // }, [])
 
   return (
     <>
