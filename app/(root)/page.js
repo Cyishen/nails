@@ -4,8 +4,8 @@ import FeedNew from "@components/FeedNew";
 export default function Home() {
   return (
     <main>
-      {/* <Feed /> */}
-      <FeedNew />
+        {/* <Feed /> */}
+        <FeedNew />
     </main>
   );
 }

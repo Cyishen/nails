@@ -3,6 +3,7 @@ import WorkList from './WorkList'
 import SearchMobile from './SearchMobile'
 
 const FeedNew = async ({}) => {
+
   const workList = await getWorkList({})
 
   return (
@@ -11,7 +12,7 @@ const FeedNew = async ({}) => {
         <SearchMobile />
       </div>
 
-      <WorkList data={workList?.data} hideCategories={false}/>
+      <WorkList data={workList?.data} hideCategories={false} />
     </>
   )
 }

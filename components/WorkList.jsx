@@ -6,14 +6,8 @@ import "@styles/WorkList.css"
 import { categories } from '@data'
 
 const WorkList = ({ data, hideCategories }) => {
-  const [selectedCategory, setSelectedCategory] = useState("All");
-  // console.log('資料？',data?.length)
 
-  // useEffect(() => {
-  //   if (data?.length === undefined) {
-  //     window.location.reload()
-  //   }
-  // }, [])
+  const [selectedCategory, setSelectedCategory] = useState("All");
 
   return (
     <>
@@ -35,11 +29,11 @@ const WorkList = ({ data, hideCategories }) => {
         <div className="work-list">
           <ul>
             {selectedCategory === "All" ? (
-                data?.map((work) => (
-                  <li key={work._id}>
-                    <WorkCard work={work} />
-                  </li>
-                ))
+              data?.map((work) => (
+                <li key={work._id}>
+                  <WorkCard work={work} />
+                </li>
+              ))
             ) : (
               data?.filter((work) => work.category === selectedCategory)?.map((work) => (
                 <li key={work._id}>
