@@ -8,6 +8,8 @@ import { categories } from '@data'
 const WorkList = ({ data, hideCategories }) => {
 
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const filteredData = selectedCategory === "All" ? data : data?.filter((work) => work.category === selectedCategory);
+  const isEmpty = filteredData?.length === 0;
 
   return (
     <>
@@ -25,7 +27,26 @@ const WorkList = ({ data, hideCategories }) => {
         </div>
       )}
 
-      {data?.length > 0 ? (
+      {isEmpty ? (
+        <div className="wrapper">
+          <div className="data-none">
+            <h4>No Design Found.</h4>
+            <p>Come back later.</p>
+          </div>
+        </div>
+      ) : (
+        <div className="work-list">
+          <ul>
+            {filteredData?.map((work) => (
+              <li key={work._id}>
+                <WorkCard work={work} />
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {/* {data?.length > 0 ? (
         <div className="work-list">
           <ul>
             {selectedCategory === "All" ? (
@@ -50,7 +71,7 @@ const WorkList = ({ data, hideCategories }) => {
             <p>Come back later.</p>
           </div>
         </div>
-      )} 
+      )}  */}
     </>
   )
 }

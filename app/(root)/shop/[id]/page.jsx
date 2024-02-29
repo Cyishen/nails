@@ -38,39 +38,20 @@ const Shop = ( { params } ) => {
 
   return (
     <>
-      {loggedInUserId === id && (
-        <div className="title">
-          <div className="title-list">
-            <Image 
-              src={profile.profileImage || "/assets/person.jpg"} 
-              alt="profile" 
-              width={140}
-              height={140}
-            />
-            <div className="title-name">
-              <h1>Your</h1>
-              <h2><span>|</span>作品</h2>
-            </div>
+      <div className="title">
+        <div className="title-list">
+          <Image 
+            src={profile.profileImage || "/assets/person.jpg"} 
+            alt="profile" 
+            width={140}
+            height={140}
+          />
+          <div className="title-name">
+            <h1>{loggedInUserId === id ? "Your" : profile.username}</h1>
+            <h2><span>|</span>作品</h2>
           </div>
         </div>
-      )}
-
-      {loggedInUserId !== id && (
-        <div className="title">
-          <div className="title-list">
-            <Image 
-              src={profile.profileImage || "/assets/person.jpg"} 
-              alt="profile" 
-              width={140}
-              height={140}
-            />
-            <div className="title-name">
-              <h1>{profile.username}</h1>
-              <h2><span>|</span>作品</h2>
-            </div>
-          </div>
-        </div>
-      )}
+      </div>
       
       <div className="shop-focus">
         <h3>101 <span>關注</span></h3>

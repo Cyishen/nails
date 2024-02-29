@@ -20,7 +20,7 @@ export default function RootLayout({ children }) {
         <AuthProvider>
           <ToasterContext />
           <Navbar />
-          {children}
+            {children}
           <Analytics />
           <SpeedInsights />
         </AuthProvider>
