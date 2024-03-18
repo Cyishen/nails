@@ -211,7 +211,36 @@ const Cart = () => {
             </h2>
           </div>
 
-          {cart?.length === 0 && <h4>Empty Cart</h4>}
+          {cart?.length === 0 && 
+            <div className="all-items">
+              <h4>Empty Cart</h4>
+
+              <div className="bottom">
+                <a href="/">
+                  <ArrowCircleLeft /> 再逛一下
+                </a>
+
+                <div className="bottom-pay">
+                  <Button
+                    variant="outlined"
+                    color="success"
+                    onClick={handleLinePay} 
+                  >
+                    <img src="/assets/line-pay.svg" width={60}/>
+                  </Button>
+                  
+                  <Button
+                    variant="outlined"
+                    endIcon={<ContactlessOutlined />}
+                    onClick={handleCheckout} 
+                  >
+                    <img src="/assets/stripe.svg" width={40}/>
+                    付款
+                  </Button>
+                </div>
+              </div>
+            </div>        
+          }
 
           {cart?.length > 0 && (
             <div className="all-items">

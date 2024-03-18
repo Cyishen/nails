@@ -1,3 +1,4 @@
+import User from "@database/models/User.model"
 import Work from "@database/models/Work.model"
 import { connectToDB } from "@database/mongodb/database"
 
@@ -12,6 +13,7 @@ export const GET = async (req, { params }) => {
       workList = await Work.find ({ category })
         .populate({
           path: "creator",
+          model: User,
           select: "_id username profileImage"
         })
         .sort({ _id: -1 })
@@ -20,6 +22,7 @@ export const GET = async (req, { params }) => {
       workList = await Work.find()
         .populate({
           path: "creator",
+          model: User,
           select: "_id username profileImage"
         })
         .sort({ _id: -1 })
