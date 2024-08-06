@@ -5,6 +5,7 @@ import Navbar from "@components/Navbar";
 import ToasterContext from "@components/auth/ToasterContext";
 import { Analytics } from "@vercel/analytics/react"
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import Footer from "@components/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,6 +22,7 @@ export default function RootLayout({ children }) {
           <ToasterContext />
           <Navbar />
             {children}
+          <Footer />
           <Analytics />
           <SpeedInsights />
         </AuthProvider>

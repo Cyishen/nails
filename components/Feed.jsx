@@ -35,7 +35,7 @@ const Feed = () => {
 
   return (
     <>
-      <div className="wrapper sticky top-[72px] flex flex-wrap gap-1 sm:gap-8 sm:mb-8 justify-center z-10 bg-white backdrop-blur-md opacity-80">
+      <div className="wrapper sticky top-[72px] flex flex-wrap gap-1 sm:gap-8 sm:mb-8 justify-center z-10 bg-white backdrop-blur-lg transition-all">
         {categories?.map((item, index) => (
           <p
             onClick={() => setSelectedCategory(item)}

@@ -17,7 +17,9 @@ const Favorite = () => {
       {favorites && favorites.length > 0 ? (
         <WorkList data={favorites} />
       ) : (
-        <p className="favorite-word">收藏喜歡的風格</p>
+        <div className="favorite-container">
+          <p className="favorite-word">收藏喜歡的風格</p>
+        </div>
       )}
     </>
   )
