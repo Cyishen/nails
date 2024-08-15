@@ -1,13 +1,22 @@
+# Next.js
+
+![nail app 104](https://github.com/user-attachments/assets/9249d50e-9ad2-48aa-963e-fa28dda851f9)
+
+## Template
+- nextauth
+- MongoDB
+- Stripe
+- Line Pay
+
+## uploade image
+- cloudinary
+
+## CSS
+- Tailwindcss
+- swiper
 
 
-## Getting Started
 
-npm i @emotion/react @emotion/styled @mui/material @mui/icons-material bcryptjs mongodb mongoose next-cloudinary next-auth react-hook-form react-hot-toast sass
 
-```bash
 
-```
-npm i stripe @stripe/stripe-js
-```
-npm run dev
 
