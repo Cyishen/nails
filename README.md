@@ -10,13 +10,6 @@
 - Stripe
 - Line Pay
 
-## uploade image
-- cloudinary
-
-## CSS
-- Tailwindcss
-- swiper
-
 
 
 
